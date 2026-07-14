@@ -1,9 +1,0 @@
-{
-  "name": "tvk-svg-south",
-  "version": "1.0.0",
-  "private": true,
-  "description": "TVK Sivagangai South District - website with grievance ticketing system",
-  "dependencies": {
-    "@netlify/blobs": "^8.1.0"
-  }
-}
