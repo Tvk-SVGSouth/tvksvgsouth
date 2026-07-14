@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="ta">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>தமிழக வெற்றிக் கழகம் - சிவகங்கை தெற்கு மாவட்டம்</title>
+
+    <!-- ===================== PWA META TAGS ===================== -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#800000">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="TVK SVG South">
+    <!-- Apple touch icons (uses your banner image as fallback) -->
+    <link rel="apple-touch-icon" href="./Images/icon-192.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="./Images/icon-192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="./Images/icon-512.png">
+    <!-- Fallback: if you don't have icon files, the banner image is used -->
+    <link rel="icon" type="image/jpeg" href="./Images/Tvk-banner.jpg.jpeg">
+    <!-- ========================================================= -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4TDM9089FY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-4TDM9089FY');
+        document.addEventListener('DOMContentLoaded', function () {
+            var formLink = document.querySelector('.form-wrapper a');
+            if (formLink) formLink.addEventListener('click', function () {
+                gtag('event', 'click', { event_category: 'CTA', event_label: 'Grievance Form' });
+            });
+            var memberCard = document.querySelector('.member-card');
+            if (memberCard) memberCard.addEventListener('click', function () {
+                gtag('event', 'click', { event_category: 'CTA', event_label: 'Membership Join' });
+            });
+            var ytLink = document.querySelector('.yt-link');
+            if (ytLink) ytLink.addEventListener('click', function () {
+                gtag('event', 'click', { event_category: 'Engagement', event_label: 'YouTube Video' });
+            });
+            document.querySelectorAll('.social-icons a').forEach(function (a) {
+                a.addEventListener('click', function () {
+                    gtag('event', 'click', {
+                        event_category: 'Social',
+                        event_label: a.querySelector('span') ? a.querySelector('span').textContent : 'Social Link'
+                    });
+                });
+            });
+        });
+    </script>
+
+    <style>
+        :root {
+            --primary-color: #b30000;
+            --secondary-color: #ffcc00;
+            --dark-color: #1a1a1a;
+            --light-color: #f8f8f8;
+            --text-color: #333333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--light-color); color: var(--text-color); line-height: 1.6; }
+
+        /* HEADER */
+        .header-banner { width: 100%; overflow: hidden; }
+        .header-banner img { width: 100%; height: 400px; object-fit: cover; display: block; }
+
+        nav { background-color: var(--light-color); padding: 15px 20px; border-bottom: 1px solid #ddd; }
+        nav ul { display: flex; justify-content: center; list-style: none; gap: 30px; flex-wrap: wrap; }
+        nav ul li a { color: maroon; text-decoration: none; font-weight: bold; font-size: 1.1rem; transition: color 0.3s; }
+        nav ul li a:hover { color: var(--secondary-color); }
+
+        /* HERO */
+        .hero { background-color: #800000; min-height: 250px; display: flex; justify-content: center; align-items: center; text-align: center; padding: 40px 20px; }
+        .hero-content h1 { font-size: 2.5rem; font-weight: 900; color: #FFCC00; text-shadow: 2px 2px 0 #b30000, 4px 4px 12px rgba(0,0,0,0.30); margin-bottom: 15px; }
+        .hero-content p { font-size: 1.2rem; max-width: 800px; margin: 0 auto; color: #fff; }
+        .hero-logo {
+            width: 130px; height: 130px; margin: 0 auto 18px;
+            filter: drop-shadow(0 6px 18px rgba(0,0,0,0.4));
+        }
+        .hero-logo img { width: 100%; height: 100%; object-fit: contain; }
+        @media (max-width: 600px) {
+            .hero-logo { width: 90px; height: 90px; margin-bottom: 12px; }
+        }
+
+        /* PILLARS */
+        .pillars { max-width: 1200px; margin: 60px auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .pillar-card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; border-top: 5px solid var(--primary-color); }
+        .pillar-card h3 { margin-bottom: 15px; color: var(--primary-color); font-size: 1.4rem; }
+
+        /* MEMBERSHIP */
+        .member-card { display: block; background: linear-gradient(135deg, #800000 0%, #b30000 60%, #cc0000 100%); color: white; padding: 40px; border-radius: 8px; box-shadow: 0 6px 25px rgba(179,0,0,0.35); text-align: center; text-decoration: none; border-top: 5px solid var(--secondary-color); transition: transform 0.3s, box-shadow 0.3s; }
+        .member-card:hover { transform: translateY(-4px); box-shadow: 0 12px 35px rgba(179,0,0,0.45); }
+        .member-card-icon { font-size: 2.5rem; color: var(--secondary-color); margin-bottom: 15px; }
+        .member-card h3 { font-size: 1.6rem; color: var(--secondary-color); margin-bottom: 15px; }
+        .member-card p { font-size: 1.05rem; color: #ffe5e5; max-width: 750px; margin: 0 auto 20px; line-height: 1.8; }
+        .member-cta { display: inline-block; background: var(--secondary-color); color: #800000; padding: 12px 28px; border-radius: 6px; font-weight: 800; font-size: 1rem; margin-top: 5px; transition: background 0.3s; }
+        .member-card:hover .member-cta { background: #ffe033; }
+
+        /* NEWS SECTION */
+        .news-section { background: #fff; border-top: 1px solid #eee; padding: 0 0 60px; }
+        .news-section-header { max-width: 1200px; margin: 0 auto; padding: 40px 20px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--primary-color); flex-wrap: wrap; gap: 10px; }
+        .news-section-header h2 { font-size: 1.8rem; color: var(--primary-color); display: flex; align-items: center; gap: 10px; }
+        .news-section-header h2 i { color: var(--secondary-color); }
+        .news-badge { background: var(--primary-color); color: white; font-size: 0.75rem; font-weight: 700; padding: 6px 16px; border-radius: 20px; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
+        .news-badge::before { content: ''; width: 8px; height: 8px; background: #ff6666; border-radius: 50%; display: inline-block; animation: pulse 1.2s ease-in-out infinite; }
+        @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.4; transform:scale(1.4); } }
+
+        .news-ticker-bar { background: var(--primary-color); display: flex; align-items: stretch; overflow: hidden; height: 46px; }
+        .ticker-label { background: #7a0000; color: var(--secondary-color); font-weight: 800; font-size: 0.82rem; letter-spacing: 1.5px; padding: 0 18px; display: flex; align-items: center; white-space: nowrap; flex-shrink: 0; gap: 7px; border-right: 2px solid rgba(255,255,255,0.15); text-transform: uppercase; }
+        .ticker-track-outer { overflow: hidden; flex: 1; display: flex; align-items: center; }
+        .ticker-track { display: flex; gap: 0; animation: tickerScroll 40s linear infinite; white-space: nowrap; }
+        .ticker-track:hover { animation-play-state: paused; }
+        @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .ticker-item { display: inline-flex; align-items: center; color: #fff; font-size: 0.88rem; font-weight: 600; padding: 0 28px 0 0; gap: 8px; flex-shrink: 0; }
+        .ticker-item::before { content: '◆'; color: var(--secondary-color); font-size: 0.6rem; flex-shrink: 0; }
+        .ticker-date-badge { background: rgba(255,255,255,0.18); color: var(--secondary-color); font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; flex-shrink: 0; }
+
+        .news-cards-outer { max-width: 1300px; margin: 0 auto; padding: 30px 20px 10px; position: relative; }
+        .news-scroll-controls { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 18px; }
+        .scroll-btn { background: var(--primary-color); color: white; border: none; border-radius: 50%; width: 38px; height: 38px; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.2s; flex-shrink: 0; }
+        .scroll-btn:hover { background: #8b0000; transform: scale(1.1); }
+
+        .news-cards-track-wrapper { overflow-x: auto; scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--primary-color) #f0d0d0; padding-bottom: 14px; cursor: grab; }
+        .news-cards-track-wrapper:active { cursor: grabbing; }
+        .news-cards-track-wrapper::-webkit-scrollbar { height: 5px; }
+        .news-cards-track-wrapper::-webkit-scrollbar-track { background: #f0d0d0; border-radius: 10px; }
+        .news-cards-track-wrapper::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 10px; }
+        .news-cards-track { display: flex; gap: 22px; padding: 4px 2px 4px; width: max-content; }
+
+        @keyframes cardSlideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .news-card { background: white; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.09); border-bottom: 4px solid var(--primary-color); transition: transform 0.26s ease, box-shadow 0.26s ease; display: flex; flex-direction: column; width: 310px; flex-shrink: 0; opacity: 0; animation: cardSlideIn 0.45s ease forwards; }
+        .news-card:nth-child(1) { animation-delay: 0.05s; }
+        .news-card:nth-child(2) { animation-delay: 0.12s; }
+        .news-card:nth-child(3) { animation-delay: 0.19s; }
+        .news-card:nth-child(4) { animation-delay: 0.26s; }
+        .news-card:nth-child(5) { animation-delay: 0.33s; }
+        .news-card:nth-child(6) { animation-delay: 0.40s; }
+        .news-card:hover { transform: translateY(-6px); box-shadow: 0 14px 32px rgba(179,0,0,0.18); }
+
+        .news-card-img-wrap { width: 100%; height: 190px; overflow: hidden; flex-shrink: 0; position: relative; background: #f5e0e0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .news-card-img-wrap.shimmer { background: linear-gradient(90deg, #f0e0e0 25%, #fce8e8 50%, #f0e0e0 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .news-card-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+        .news-card:hover .news-card-img-wrap img { transform: scale(1.05); }
+        .news-card-tag { position: absolute; top: 10px; left: 10px; z-index: 2; background: var(--primary-color); color: white; font-size: 0.66rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; }
+        .placeholder-icon { font-size: 2.5rem; color: #ccc; }
+
+        .img-nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 3; background: rgba(0,0,0,0.45); color: white; border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .img-nav:hover { background: rgba(179,0,0,0.8); }
+        .img-prev { left: 8px; }
+        .img-next { right: 8px; }
+        .img-counter { position: absolute; bottom: 8px; right: 10px; z-index: 3; background: rgba(0,0,0,0.5); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+        .img-dots { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px; z-index: 3; }
+        .img-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: background 0.2s, transform 0.2s; }
+        .img-dot.active { background: var(--secondary-color); transform: scale(1.3); }
+
+        .news-card-body { padding: 16px 18px 20px; flex: 1; display: flex; flex-direction: column; }
+        .news-card-date { font-size: 0.76rem; color: #999; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+        .news-card-date i { color: var(--primary-color); }
+        .news-card-title { font-size: 1rem; font-weight: 700; color: var(--dark-color); margin-bottom: 10px; line-height: 1.5; }
+        .news-card-desc { font-size: 0.875rem; color: #555; line-height: 1.7; flex: 1; max-height: 90px; overflow: hidden; position: relative; transition: max-height 0.4s ease; }
+        .news-card-desc.expanded { max-height: 600px; }
+        .news-card-desc:not(.expanded)::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 28px; background: linear-gradient(transparent, white); }
+        .news-card-expand { background: none; border: none; padding: 0; color: var(--primary-color); font-size: 0.78rem; font-weight: 700; cursor: pointer; margin-top: 6px; text-decoration: underline; align-self: flex-start; }
+        .news-card-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; background: var(--primary-color); color: white; padding: 7px 14px; border-radius: 6px; font-weight: 700; font-size: 0.82rem; text-decoration: none; transition: background 0.2s, transform 0.2s; align-self: flex-start; }
+        .news-card-link:hover { background: #8b0000; transform: translateX(2px); }
+
+        .news-state { text-align: center; padding: 50px 20px; color: #999; width: 100%; display: block; }
+        .news-state i { font-size: 2rem; color: var(--primary-color); }
+        .news-state.loading i { animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .news-state.error { color: #c00; }
+
+        /* IMAGE LIGHTBOX MODAL */
+        .img-lightbox-overlay {
+            display: none;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.88);
+            z-index: 10000;
+            align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        .img-lightbox-overlay.show { display: flex; }
+        .img-lightbox-content {
+            position: relative;
+            max-width: 95vw; max-height: 92vh;
+            display: flex; flex-direction: column; align-items: center;
+            overflow-y: auto;
+        }
+        .img-lightbox-content img {
+            max-width: 95vw; max-height: 60vh;
+            object-fit: contain;
+            border-radius: 6px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+            background: #111;
+            flex-shrink: 0;
+        }
+        .img-lightbox-caption {
+            color: #fff; margin-top: 14px; text-align: center;
+            font-size: 1rem; font-weight: 600; max-width: 80vw;
+            flex-shrink: 0;
+        }
+        .img-lightbox-desc {
+            color: #ddd; margin-top: 8px; text-align: center;
+            font-size: 0.9rem; font-weight: 400; max-width: 80vw;
+            line-height: 1.6;
+            padding-right: 4px; flex-shrink: 0;
+        }
+        .img-lightbox-close {
+            position: absolute; top: -10px; right: -10px;
+            background: var(--primary-color); color: #fff;
+            border: none; width: 40px; height: 40px; border-radius: 50%;
+            font-size: 1.2rem; cursor: pointer; z-index: 2;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+        }
+        .img-lightbox-close:hover { background: #8b0000; }
+        .img-lightbox-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(255,255,255,0.15); color: #fff; border: none;
+            width: 48px; height: 48px; border-radius: 50%; font-size: 1.3rem;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s;
+        }
+        .img-lightbox-nav:hover { background: rgba(179,0,0,0.85); }
+        .img-lightbox-prev { left: 10px; }
+        .img-lightbox-next { right: 10px; }
+        .img-lightbox-counter {
+            color: #ddd; margin-top: 8px; font-size: 0.85rem; font-weight: 600;
+        }
+        @media (max-width: 600px) {
+            .img-lightbox-nav { width: 38px; height: 38px; font-size: 1.1rem; }
+            .img-lightbox-close { width: 34px; height: 34px; top: -6px; right: -6px; }
+        }
+
+        /* QUERY SECTION */
+        .query-section { background-color: #fff; padding: 60px 20px; border-top: 1px solid #eee; }
+        .section-container { max-width: 800px; margin: 0 auto; text-align: center; }
+        .section-container h2 { font-size: 2rem; color: var(--primary-color); margin-bottom: 15px; }
+        .section-container > p { margin-bottom: 30px; font-size: 1.1rem; }
+        .form-wrapper { background: white; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 40px; }
+        .form-wrapper h3 { margin-bottom: 15px; color: var(--primary-color); }
+        .form-wrapper p { margin-bottom: 20px; }
+        .form-wrapper a { display: inline-block; background: #800020; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-size: 18px; font-weight: bold; transition: background 0.3s; }
+        .form-wrapper a:hover { background: #a00030; }
+
+        /* YOUTUBE */
+        .yt-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 6px; margin: 18px 0 14px; box-shadow: 0 3px 12px rgba(0,0,0,0.15); }
+        .yt-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 6px; }
+        .yt-link { display: inline-flex; align-items: center; gap: 8px; background: #FF0000; color: white; padding: 8px 18px; border-radius: 6px; font-size: 0.9rem; font-weight: 700; text-decoration: none; transition: background 0.3s, transform 0.2s; }
+        .yt-link:hover { background: #cc0000; transform: translateY(-2px); }
+
+        /* ===================== PWA INSTALL BANNER ===================== */
+        #pwa-install-banner {
+            display: none;
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(135deg, #800000, #b30000);
+            color: white;
+            padding: 14px 20px;
+            z-index: 9999;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        #pwa-install-banner.show { display: flex; }
+        .pwa-banner-left { display: flex; align-items: center; gap: 12px; }
+        .pwa-banner-icon { font-size: 1.8rem; color: var(--secondary-color); }
+        .pwa-banner-text strong { display: block; font-size: 0.95rem; color: var(--secondary-color); }
+        .pwa-banner-text span { font-size: 0.8rem; color: #ffcccc; }
+        .pwa-banner-buttons { display: flex; gap: 10px; }
+        .pwa-install-btn {
+            background: var(--secondary-color); color: #800000;
+            border: none; padding: 8px 20px; border-radius: 6px;
+            font-weight: 800; font-size: 0.9rem; cursor: pointer;
+            transition: background 0.2s;
+        }
+        .pwa-install-btn:hover { background: #ffe033; }
+        .pwa-dismiss-btn {
+            background: transparent; color: #ffcccc;
+            border: 1px solid rgba(255,255,255,0.3); padding: 8px 14px;
+            border-radius: 6px; font-size: 0.85rem; cursor: pointer;
+        }
+        .pwa-dismiss-btn:hover { background: rgba(255,255,255,0.1); }
+
+        /* iOS install hint */
+        #ios-install-hint {
+            display: none;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: #1a1a1a; color: white;
+            padding: 16px 20px; z-index: 9999;
+            text-align: center; font-size: 0.9rem;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+        }
+        #ios-install-hint.show { display: block; }
+        #ios-install-hint strong { color: var(--secondary-color); }
+        #ios-install-hint button { background: none; border: none; color: #aaa; font-size: 1.2rem; float: right; cursor: pointer; margin-top: -2px; }
+        /* ============================================================= */
+
+        /* CONTACT */
+        .contact-section { background: #fff; border-top: 1px solid #eee; padding: 60px 20px; }
+        .contact-card {
+            max-width: 700px; margin: 0 auto; text-align: center;
+            background: linear-gradient(135deg, #fff8f0 0%, #ffffff 100%);
+            border: 2px solid #ffe0c0; border-radius: 14px;
+            padding: 40px 30px; box-shadow: 0 6px 25px rgba(0,0,0,0.06);
+        }
+        .contact-icon {
+            width: 70px; height: 70px; margin: 0 auto 18px;
+            background: var(--primary-color); color: var(--secondary-color);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem;
+        }
+        .contact-card h3 { color: var(--primary-color); font-size: 1.5rem; margin-bottom: 12px; }
+        .contact-card p { color: #555; margin-bottom: 22px; }
+        .contact-email {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: var(--primary-color); color: #fff;
+            padding: 8px 18px; border-radius: 6px;
+            font-weight: 700; font-size: 0.85rem; text-decoration: none;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .contact-email:hover { background: #8b0000; transform: translateY(-2px); }
+
+        /* FLOATING GRIEVANCE BUTTON */
+        .floating-grievance {
+            position: fixed; right: 14px; top: 50%; transform: translateY(-50%);
+            z-index: 9998;
+            background: var(--primary-color); color: #fff;
+            border-radius: 50px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 4px; text-decoration: none;
+            width: 56px; height: 56px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            transition: background 0.3s, width 0.25s, border-radius 0.25s;
+            overflow: hidden; white-space: nowrap;
+        }
+        .floating-grievance i { font-size: 1.3rem; color: var(--secondary-color); }
+        .floating-grievance-label { font-size: 0.62rem; font-weight: 700; }
+        .floating-grievance:hover {
+            background: #8b0000; width: 130px; border-radius: 30px;
+            flex-direction: row; gap: 8px;
+        }
+        .floating-grievance:hover .floating-grievance-label { font-size: 0.78rem; }
+        @media (max-width: 600px) {
+            .floating-grievance { right: 8px; width: 50px; height: 50px; }
+            .floating-grievance i { font-size: 1.1rem; }
+            .floating-grievance-label { font-size: 0.56rem; }
+            .floating-grievance:hover { width: 120px; }
+        }
+
+        /* LANGUAGE TOGGLE */
+        .lang-toggle {
+            position: fixed; top: 14px; right: 14px; z-index: 9998;
+            background: var(--dark-color); color: var(--secondary-color);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 7px 14px; border-radius: 20px;
+            font-weight: 800; font-size: 0.8rem; cursor: pointer;
+            display: flex; align-items: center; gap: 6px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+            transition: background 0.2s;
+        }
+        .lang-toggle:hover { background: #333; }
+
+        /* FOOTER */
+        footer { background-color: var(--dark-color); color: #aaa; padding: 40px 20px; text-align: center; border-top: 4px solid var(--primary-color); }
+        footer p { margin-bottom: 10px; }
+        .footer-brand { color: white; font-weight: bold; font-size: 1.2rem; margin-bottom: 15px; }
+        .social-icons { background: #111; display: flex; justify-content: center; align-items: center; gap: 40px; padding: 18px 30px; margin-top: 25px; border-radius: 8px; flex-wrap: wrap; }
+        .social-icons a { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #E5A93B; font-size: 16px; font-weight: 700; transition: 0.3s; }
+        .social-icons a:hover { transform: translateY(-2px); color: #FFCC00; }
+        .social-icons .fa-facebook { color: #1877F2; }
+        .social-icons .fa-instagram { color: #C13584; }
+        .social-icons .fa-x-twitter { color: #FFFFFF; }
+        .dev-credit { margin-top: 20px; padding-top: 15px; border-top: 1px solid #333; font-size: 0.82rem; color: #666; }
+        .dev-credit span { color: var(--secondary-color); font-weight: 700; font-family: 'Courier New', monospace; }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            nav ul { flex-direction: column; gap: 15px; align-items: center; }
+            .hero-content h1 { font-size: 1.8rem; }
+            .header-banner img { height: 250px; }
+            .social-icons { gap: 20px; }
+            .news-card { width: 270px; }
+            #pwa-install-banner { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===================== PWA INSTALL BANNER ===================== -->
+    <div id="pwa-install-banner">
+        <div class="pwa-banner-left">
+            <div class="pwa-banner-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+            <div class="pwa-banner-text">
+                <strong>📲 App-ஐ Install செய்யுங்கள்!</strong>
+                <span>TVK SVG South — உங்கள் மொபைலில் நேரடியாக பயன்படுத்தலாம்</span>
+            </div>
+        </div>
+        <div class="pwa-banner-buttons">
+            <button class="pwa-install-btn" id="pwaInstallBtn">Install செய்க</button>
+            <button class="pwa-dismiss-btn" id="pwaDismissBtn">வேண்டாம்</button>
+        </div>
+    </div>
+
+    <!-- iOS Safari install hint -->
+    <div id="ios-install-hint">
+        <button onclick="document.getElementById('ios-install-hint').classList.remove('show')">✕</button>
+        <strong>📲 iPhone-ல் Install செய்ய:</strong><br>
+        Safari-ல் <strong>Share</strong> button (⎙) → <strong>"Add to Home Screen"</strong> என்று தேர்வு செய்யவும்
+    </div>
+    <!-- ============================================================= -->
+
+    <!-- LANGUAGE TOGGLE -->
+    <button class="lang-toggle" id="langToggle" onclick="toggleLang()">
+        <i class="fa-solid fa-language"></i><span id="langToggleLabel">English</span>
+    </button>
+
+    <!-- FLOATING GRIEVANCE BUTTON -->
+    <a href="grievance.html" class="floating-grievance" title="குறை / கோரிக்கை பதிவு">
+        <i class="fa-solid fa-file-pen"></i>
+        <span class="floating-grievance-label" data-ta="குறை பதிவு" data-en="Grievance">குறை பதிவு</span>
+    </a>
+
+    <header>
+        <section class="header-banner">
+            <img src="./Images/Tvk-banner.jpg.jpeg" alt="TVK Banner">
+        </section>
+        <nav>
+            <ul>
+                <li><a href="#home" data-ta="முகப்பு" data-en="Home">முகப்பு</a></li>
+                <li><a href="#about" data-ta="கொள்கை" data-en="Policy">கொள்கை</a></li>
+                <li><a href="#query" data-ta="கோரிக்கைகள்" data-en="Grievances">கோரிக்கைகள்</a></li>
+                <li><a href="grievance.html#track" data-ta="நிலை அறிய" data-en="Track Status">நிலை அறிய</a></li>
+                <li><a href="#news" data-ta="செய்திகள்" data-en="News">செய்திகள்</a></li>
+                <li><a href="#contact" data-ta="தொடர்பு" data-en="Contact">தொடர்பு</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-logo"><img src="./Images/tvk-logo.png" alt="TVK SVG South Logo"></div>
+            <h1 data-ta="தமிழக வெற்றிக் கழகம் - சிவகங்கை தெற்கு மாவட்டம்" data-en="Tamilaga Vettri Kazhagam - Sivaganga South District">தமிழக வெற்றிக் கழகம் - சிவகங்கை தெற்கு மாவட்டம்</h1>
+            <p data-ta="தமிழ்நாடு மற்றும் தமிழ்நாட்டு மக்கள் நலன் சார்ந்து இயங்கும் மக்களரசியல் இயக்கம்." data-en="A people's political movement working for the welfare of Tamil Nadu and its people.">தமிழ்நாடு மற்றும் தமிழ்நாட்டு மக்கள் நலன் சார்ந்து இயங்கும் மக்களரசியல் இயக்கம்.</p>
+        </div>
+    </section>
+
+    <!-- QUERY / GRIEVANCE -->
+    <section class="query-section" id="query">
+        <div class="section-container">
+            <h2 data-ta="பொதுமக்கள் குறைகள் மற்றும் கோரிக்கைகள்" data-en="Public Grievances &amp; Requests">பொதுமக்கள் குறைகள் மற்றும் கோரிக்கைகள்</h2>
+            <p data-ta="உங்கள் பகுதியில் உள்ள குறைகள் மற்றும் கோரிக்கைகளை கீழே உள்ள படிவத்தின் வாயிலாக எங்களது கவனத்திற்கு கொண்டு வாருங்கள்." data-en="Bring the grievances and requests in your area to our attention through the form below.">உங்கள் பகுதியில் உள்ள குறைகள் மற்றும் கோரிக்கைகளை கீழே உள்ள படிவத்தின் வாயிலாக எங்களது கவனத்திற்கு கொண்டு வாருங்கள்.</p>
+            <div class="form-wrapper">
+                <h3 data-ta="குறை / கோரிக்கை பதிவு" data-en="Submit a Grievance / Request">குறை / கோரிக்கை பதிவு</h3>
+                <p data-ta="இந்த வலைத்தளத்திலேயே நேரடியாக உங்கள் புகாரைப் பதிவு செய்யலாம். பதிவு செய்தவுடன் ஒரு புகார் எண் (Ticket ID) கிடைக்கும், அதைக் கொண்டு எப்போது வேண்டுமானாலும் நிலையை அறியலாம்." data-en="You can file your complaint directly on this website. Once submitted, you'll receive a Ticket ID you can use anytime to check the status.">இந்த வலைத்தளத்திலேயே நேரடியாக உங்கள் புகாரைப் பதிவு செய்யலாம். பதிவு செய்தவுடன் ஒரு புகார் எண் (Ticket ID) கிடைக்கும், அதைக் கொண்டு எப்போது வேண்டுமானாலும் நிலையை அறியலாம்.</p>
+                <a href="grievance.html" data-ta="குறைகளை பதிவு செய்ய இங்கே கிளிக் செய்யவும்" data-en="Click here to submit your grievance">குறைகளை பதிவு செய்ய இங்கே கிளிக் செய்யவும்</a>
+                &nbsp;&nbsp;
+                <a href="grievance.html#track" style="background:#fff;color:#800020;border:2px solid #800020;" data-ta="நிலை அறிய" data-en="Track Status">உங்கள் புகார் நிலையை அறிய</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- MEMBERSHIP -->
+    <section style="max-width:1200px; margin: 0 auto 60px; padding: 0 20px;">
+        <a href="https://tvk.family/" target="_blank" class="member-card">
+            <div class="member-card-icon"><i class="fa-solid fa-handshake"></i></div>
+            <h3 data-ta="கழக உறுப்பினராக உறுதிபூணுங்கள்" data-en="Pledge to Become a Member">கழக உறுப்பினராக உறுதிபூணுங்கள்</h3>
+            <p data-ta="எல்லோருக்கும் எல்லாமும் கிடைக்க வேண்டும் என்ற அடிப்படையான செயல்திட்டத்துடன் இயங்குவதுதான் த.வெ.க. மக்களரசியலை மக்களுக்காக, மக்களோடு மக்களாக இணைந்து முன்னெடுக்கும் இயக்கத்தில் உங்கள் பங்களிப்பையும் உறுதிசெய்ய இப்போதே கழக உறுப்பினராகுங்கள்." data-en="TVK functions on the basic principle that everything should be available to everyone. Become a member today to ensure your contribution to this movement that takes people's politics forward for the people, with the people, as the people.">எல்லோருக்கும் எல்லாமும் கிடைக்க வேண்டும் என்ற அடிப்படையான செயல்திட்டத்துடன் இயங்குவதுதான் த.வெ.க. மக்களரசியலை மக்களுக்காக, மக்களோடு மக்களாக இணைந்து முன்னெடுக்கும் இயக்கத்தில் உங்கள் பங்களிப்பையும் உறுதிசெய்ய இப்போதே கழக உறுப்பினராகுங்கள்.</p>
+            <span class="member-cta"><span data-ta="த.வெ.க-யுடன் உங்கள் பயணத்தை தொடங்குங்கள் &nbsp;" data-en="Begin your journey with TVK &nbsp;">த.வெ.க-யுடன் உங்கள் பயணத்தை தொடங்குங்கள் &nbsp;</span><i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+    </section>
+
+    <!-- NEWS SECTION -->
+    <section class="news-section" id="news">
+        <div class="news-section-header">
+            <h2><i class="fa-solid fa-newspaper"></i> <span data-ta="சமீபத்திய செய்திகள்" data-en="Latest News">சமீபத்திய செய்திகள்</span></h2>
+            <span class="news-badge">LIVE</span>
+        </div>
+        <div class="news-ticker-bar" id="newsTicker">
+            <div class="ticker-label"><i class="fa-solid fa-bolt"></i> செய்தி</div>
+            <div class="ticker-track-outer">
+                <div class="ticker-track" id="tickerTrack">
+                    <span class="ticker-item">செய்திகள் ஏற்றப்படுகின்றன...</span>
+                    <span class="ticker-item">செய்திகள் ஏற்றப்படுகின்றன...</span>
+                </div>
+            </div>
+        </div>
+        <div class="news-cards-outer">
+            <div class="news-scroll-controls">
+                <button class="scroll-btn" id="scrollLeft" title="முந்தையது"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="scroll-btn" id="scrollRight" title="அடுத்தது"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+            <div class="news-cards-track-wrapper" id="newsTrackWrapper">
+                <div class="news-cards-track" id="newsGrid">
+                    <div class="news-state loading">
+                        <i class="fa-solid fa-circle-notch"></i>
+                        <p style="margin-top:12px;">செய்திகள் ஏற்றப்படுகின்றன...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMAGE LIGHTBOX MODAL -->
+    <div class="img-lightbox-overlay" id="imgLightbox">
+        <div class="img-lightbox-content">
+            <button class="img-lightbox-close" onclick="closeLightbox()"><i class="fa-solid fa-xmark"></i></button>
+            <button class="img-lightbox-nav img-lightbox-prev" id="lightboxPrev" onclick="lightboxNav(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+            <img id="lightboxImg" src="" alt="">
+            <button class="img-lightbox-nav img-lightbox-next" id="lightboxNext" onclick="lightboxNav(1)"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="img-lightbox-caption" id="lightboxCaption"></div>
+            <div class="img-lightbox-desc" id="lightboxDesc"></div>
+            <div class="img-lightbox-counter" id="lightboxCounter"></div>
+        </div>
+    </div>
+
+    <!-- PILLARS -->
+    <section class="pillars" id="about">
+        <div class="pillar-card">
+            <h3 data-ta="தலைமைத்துவம்" data-en="Leadership">தலைமைத்துவம்</h3>
+            <p data-ta="சமூக நீதி, சமத்துவம் மற்றும் சகோதரத்துவத்துடன் கூடிய கொள்கை வழி அரசியல் தனித்துவம்." data-en="A distinctive principle-based politics rooted in social justice, equality and fraternity.">சமூக நீதி, சமத்துவம் மற்றும் சகோதரத்துவத்துடன் கூடிய கொள்கை வழி அரசியல் தனித்துவம்.</p>
+        </div>
+        <div class="pillar-card">
+            <h3 data-ta="கொள்கை" data-en="Policy">கொள்கை</h3>
+            <p data-ta="மக்களுக்கான அரசியலை, அவர்கள் நலன்கள் சார்ந்த செயல்திட்டங்களைக் கொண்டு முன்னெடுத்துச் செல்லுதல்." data-en="Advancing politics for the people through action plans rooted in their welfare.">மக்களுக்கான அரசியலை, அவர்கள் நலன்கள் சார்ந்த செயல்திட்டங்களைக் கொண்டு முன்னெடுத்துச் செல்லுதல்.</p>
+            <div class="yt-wrapper">
+                <iframe src="https://www.youtube.com/embed/NTAPLzX_A1A" title="கொள்கை - தமிழக வெற்றிக் கழகம்" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <a href="https://youtu.be/NTAPLzX_A1A" target="_blank" class="yt-link">
+                <i class="fa-brands fa-youtube"></i> <span data-ta="YouTube-ல் பார்க்கவும்" data-en="Watch on YouTube">YouTube-ல் பார்க்கவும்</span>
+            </a>
+        </div>
+        <div class="pillar-card">
+            <h3 data-ta="செயல்திட்டம்" data-en="Action Plan">செயல்திட்டம்</h3>
+            <p data-ta="அனைத்து தரப்பு மக்கள் மற்றும் மாநில வளர்ச்சித் திட்டங்கள் சார்ந்த உன்னத செயல்பாடுகள்." data-en="Noble initiatives covering people from all walks of life and state development programs.">அனைத்து தரப்பு மக்கள் மற்றும் மாநில வளர்ச்சித் திட்டங்கள் சார்ந்த உன்னத செயல்பாடுகள்.</p>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact-section" id="contact">
+        <div class="contact-card">
+            <div class="contact-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+            <h3 data-ta="தொடர்பு கொள்ள" data-en="Contact Us">தொடர்பு கொள்ள</h3>
+            <p data-ta="உங்கள் கருத்துகள், ஆலோசனைகள் மற்றும் கோரிக்கைகளை மின்னஞ்சல் வாயிலாக எங்களுக்கு அனுப்பலாம்." data-en="You can send us your feedback, suggestions and requests by email.">உங்கள் கருத்துகள், ஆலோசனைகள் மற்றும் கோரிக்கைகளை மின்னஞ்சல் வாயிலாக எங்களுக்கு அனுப்பலாம்.</p>
+            <a href="mailto:Tvksvgsouthoffical@gmail.com" class="contact-email">
+                <i class="fa-solid fa-paper-plane"></i>&nbsp; Tvksvgsouthoffical@gmail.com
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-brand" data-ta="தமிழக வெற்றிக் கழகம் - சிவகங்கை தெற்கு மாவட்டம்" data-en="Tamilaga Vettri Kazhagam - Sivaganga South District">தமிழக வெற்றிக் கழகம் - சிவகங்கை தெற்கு மாவட்டம்</div>
+        <p data-ta="© 2026 அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை." data-en="© 2026 All rights reserved.">© 2026 அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.</p>
+        <p data-ta="மக்களரசியலை மக்களுக்காக, மக்களோடு மக்களாக இணைந்து முன்னெடுக்கும் இயக்கம்." data-en="A movement that advances people's politics for the people, together with the people, as the people.">மக்களரசியலை மக்களுக்காக, மக்களோடு மக்களாக இணைந்து முன்னெடுக்கும் இயக்கம்.</p>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/share/17jX64zLoY/" target="_blank">
+                <i class="fa-brands fa-facebook"></i><span>Facebook</span>
+            </a>
+            <a href="https://www.instagram.com/it_wing_svg" target="_blank">
+                <i class="fa-brands fa-instagram"></i><span>Instagram</span>
+            </a>
+            <a href="https://x.com/it_wing_svg" target="_blank">
+                <i class="fa-brands fa-x-twitter"></i><span>Twitter / X</span>
+            </a>
+        </div>
+        <div class="dev-credit" data-ta="Designed &amp; Developed by <span>Er,A.Janarthanan</span>" data-en="Designed &amp; Developed by <span>Er,A.Janarthanan</span>">Designed &amp; Developed by <span>Er,A.Janarthanan</span></div>
+    </footer>
+
+    <!-- ===================== SERVICE WORKER REGISTRATION ===================== -->
+    <script>
+    /* ---------- LANGUAGE TOGGLE ---------- */
+    let currentLang = 'ta';
+    function toggleLang() {
+        currentLang = currentLang === 'ta' ? 'en' : 'ta';
+        document.querySelectorAll('[data-ta][data-en]').forEach(function (el) {
+            el.innerHTML = el.getAttribute('data-' + currentLang);
+        });
+        document.getElementById('langToggleLabel').textContent = currentLang === 'ta' ? 'English' : 'தமிழ்';
+        document.documentElement.lang = currentLang;
+    }
+
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('./sw.js')
+                .then(function (reg) {
+                    console.log('[PWA] Service Worker registered:', reg.scope);
+                })
+                .catch(function (err) {
+                    console.warn('[PWA] SW registration failed:', err);
+                });
+        });
+    }
+
+    /* ---------- Android / Desktop Install Banner ---------- */
+    let deferredPrompt = null;
+    const installBanner = document.getElementById('pwa-install-banner');
+    const installBtn = document.getElementById('pwaInstallBtn');
+    const dismissBtn = document.getElementById('pwaDismissBtn');
+
+    window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        deferredPrompt = e;
+        // Don't show if user already dismissed
+        if (!sessionStorage.getItem('pwa-dismissed')) {
+            installBanner.classList.add('show');
+        }
+    });
+
+    installBtn.addEventListener('click', function () {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(function (choice) {
+                console.log('[PWA] Install choice:', choice.outcome);
+                deferredPrompt = null;
+                installBanner.classList.remove('show');
+            });
+        }
+    });
+
+    dismissBtn.addEventListener('click', function () {
+        installBanner.classList.remove('show');
+        sessionStorage.setItem('pwa-dismissed', '1');
+    });
+
+    window.addEventListener('appinstalled', function () {
+        installBanner.classList.remove('show');
+        console.log('[PWA] App installed successfully!');
+    });
+
+    /* ---------- iOS Safari Install Hint ---------- */
+    function isIos() {
+        return /iphone|ipad|ipod/i.test(navigator.userAgent);
+    }
+    function isInStandaloneMode() {
+        return ('standalone' in navigator) && navigator.standalone;
+    }
+    if (isIos() && !isInStandaloneMode() && !sessionStorage.getItem('ios-hint-dismissed')) {
+        setTimeout(function () {
+            document.getElementById('ios-install-hint').classList.add('show');
+        }, 3000);
+        document.querySelector('#ios-install-hint button').addEventListener('click', function () {
+            sessionStorage.setItem('ios-hint-dismissed', '1');
+        });
+    }
+    </script>
+    <!-- ========================================================================= -->
+
+    <script>
+    /* ============================================================
+       CONFIG
+    ============================================================ */
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYyg-T1N7l6PmPEnpdJXXY4yC3CZu94T-B7Q8XDXOzh91D1oVbkRXzlx9eIVTdT7TnQQirS9KkeG7U/pub?gid=0&single=true&output=csv';
+
+    function parseCSV(text) {
+        text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+        const rows = [];
+        let col = '', row = [], inQ = false, i = 0;
+        while (i < text.length) {
+            const ch = text[i];
+            if (inQ) {
+                if (ch === '"') {
+                    if (text[i + 1] === '"') { col += '"'; i += 2; continue; }
+                    inQ = false;
+                } else { col += ch; }
+            } else {
+                if (ch === '"') { inQ = true; }
+                else if (ch === ',') { row.push(col.trim()); col = ''; }
+                else if (ch === '\n') {
+                    row.push(col.trim()); col = '';
+                    if (row.some(c => c !== '')) rows.push(row);
+                    row = [];
+                } else { col += ch; }
+            }
+            i++;
+        }
+        row.push(col.trim());
+        if (row.some(c => c !== '')) rows.push(row);
+        if (rows.length < 2) return [];
+        const headers = rows[0].map(h => h.replace(/^"|"$/g, '').trim());
+        return rows.slice(1).map(cols => {
+            const obj = {};
+            headers.forEach((h, idx) => { obj[h] = (cols[idx] || '').replace(/^"|"$/g, '').trim(); });
+            return obj;
+        }).filter(r => r.Title && r.Title.trim() !== '');
+    }
+
+    function normaliseImageURL(raw) {
+        if (!raw) return '';
+        raw = raw.trim();
+        if (!raw) return '';
+        const gdrive = raw.match(/\/d\/([a-zA-Z0-9_-]{20,})/);
+        if (gdrive) return 'https://drive.google.com/uc?export=view&id=' + gdrive[1];
+        if (/^https?:\/\/i\.ibb\.co\//i.test(raw)) return raw;
+        if (/\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i.test(raw)) return raw;
+        if (/^https?:\/\/(www\.)?ibb\.co\//i.test(raw)) return raw;
+        const imgbb = raw.match(/imgbb\.com\/([a-zA-Z0-9]+)/);
+        if (imgbb) return 'https://i.ibb.co/' + imgbb[1] + '/image.jpg';
+        return raw;
+    }
+
+    function extractImageURLs(rawField) {
+        if (!rawField) return [];
+        const parts = rawField.split('\n').map(s => s.replace(/\r/g, '').trim()).filter(s => s.length > 0 && /^https?:\/\//i.test(s));
+        if (parts.length > 0) return parts.map(normaliseImageURL).filter(Boolean);
+        const single = normaliseImageURL(rawField);
+        return single ? [single] : [];
+    }
+
+    function loadImage(imgEl, url, wrapEl) {
+        const isSharePage = /^https?:\/\/(www\.)?ibb\.co\/[^/]+\/?$/i.test(url) && !/\.(jpg|jpeg|png|gif|webp)/i.test(url);
+        const candidates = isSharePage
+            ? ['https://wsrv.nl/?url=' + encodeURIComponent(url) + '&w=800&output=jpg', 'https://images.weserv.nl/?url=' + encodeURIComponent(url) + '&output=jpg', url]
+            : [url, 'https://wsrv.nl/?url=' + encodeURIComponent(url) + '&w=800&output=jpg', 'https://images.weserv.nl/?url=' + encodeURIComponent(url) + '&output=jpg'];
+        let attempt = 0;
+        function tryNext() {
+            if (attempt >= candidates.length) {
+                if (wrapEl) {
+                    wrapEl.classList.remove('shimmer');
+                    imgEl.style.display = 'none';
+                    if (!wrapEl.querySelector('.placeholder-icon')) {
+                        const icon = document.createElement('i');
+                        icon.className = 'fa-solid fa-image placeholder-icon';
+                        wrapEl.appendChild(icon);
+                    }
+                }
+                return;
+            }
+            imgEl.src = candidates[attempt++];
+        }
+        imgEl.onerror = tryNext;
+        imgEl.onload = function () { if (wrapEl) wrapEl.classList.remove('shimmer'); };
+        tryNext();
+    }
+
+    function renderNews(items) {
+        const grid = document.getElementById('newsGrid');
+        const tickerTrack = document.getElementById('tickerTrack');
+        if (!items.length) {
+            grid.innerHTML = '<div class="news-state"><i class="fa-solid fa-inbox" style="font-size:2rem;color:#ccc"></i><p style="margin-top:10px">இப்போது செய்திகள் இல்லை.</p></div>';
+            return;
+        }
+        const sorted = [...items].reverse();
+        const totalChars = sorted.reduce((s, i) => s + (i.Title || '').length, 0);
+        const estWidth = totalChars * 10 + sorted.length * 80;
+        const repeats = Math.max(3, Math.ceil(3000 / Math.max(estWidth, 1)));
+        const makeTickerHTML = () => sorted.map(item =>
+            '<span class="ticker-item"><span class="ticker-date-badge">' + escHtml(item.Date || '') + '</span>' + escHtml(item.Title) + '</span>'
+        ).join('');
+        let tickerContent = '';
+        for (let r = 0; r < repeats; r++) tickerContent += makeTickerHTML();
+        tickerTrack.innerHTML = tickerContent + tickerContent;
+        const duration = Math.max(18, Math.min(100, estWidth * repeats * 0.013));
+        tickerTrack.style.animationDuration = duration + 's';
+
+        grid.innerHTML = sorted.map((item, idx) => {
+            const imgURLs = extractImageURLs(item.ImageURL);
+            const hasImages = imgURLs.length > 0;
+            const cardId = 'card-' + idx;
+            const navHTML = imgURLs.length > 1
+                ? `<button class="img-nav img-prev" onclick="slideImg('${cardId}',-1)">&#10094;</button><button class="img-nav img-next" onclick="slideImg('${cardId}',1)">&#10095;</button><div class="img-counter" id="counter-${cardId}">1 / ${imgURLs.length}</div>`
+                : '';
+            const dotsHTML = imgURLs.length > 1
+                ? `<div class="img-dots" id="dots-${cardId}">` + imgURLs.map((_,di) => `<span class="img-dot${di===0?' active':''}" onclick="goSlide('${cardId}',${di})"></span>`).join('') + `</div>` : '';
+            const imageAreaHTML = hasImages
+                ? `<div class="news-card-img-wrap shimmer" id="wrap-${cardId}" data-total="${imgURLs.length}" data-current="0"><span class="news-card-tag">செய்தி</span><img id="mainimg-${cardId}" alt="${escAttr(item.Title)}" loading="lazy">${navHTML}${dotsHTML}</div>`
+                : `<div class="news-card-img-wrap" id="wrap-${cardId}"><span class="news-card-tag">செய்தி</span><i class="fa-solid fa-image placeholder-icon"></i></div>`;
+            const linkHTML = (item.Link && item.Link.trim()) ? `<a href="${escAttr(item.Link.trim())}" target="_blank" class="news-card-link">மேலும் படிக்க &nbsp;<i class="fa-solid fa-arrow-right"></i></a>` : '';
+            const descText = (item.Description || '').replace(/\n/g, '<br>');
+            const isLong = (item.Description || '').length > 120;
+            return `<div class="news-card" id="${cardId}">${imageAreaHTML}<div class="news-card-body"><div class="news-card-date"><i class="fa-regular fa-calendar"></i>&nbsp;${escHtml(item.Date || '')}</div><div class="news-card-title">${escHtml(item.Title)}</div><div class="news-card-desc" id="desc-${cardId}">${descText}</div>${isLong ? `<button class="news-card-expand" onclick="toggleDesc('${cardId}')">மேலும் படிக்க ▼</button>` : ''}${linkHTML}</div></div>`;
+        }).join('');
+
+        sorted.forEach((item, idx) => {
+            const imgURLs = extractImageURLs(item.ImageURL);
+            const cardId = 'card-' + idx;
+            const wrap = document.getElementById('wrap-' + cardId);
+            if (!wrap) return;
+            wrap._imgURLs = imgURLs;
+            wrap._title = item.Title || '';
+            wrap._desc = item.Description || '';
+            if (!imgURLs.length) return;
+            const mainImg = document.getElementById('mainimg-' + cardId);
+            if (!mainImg) return;
+            loadImage(mainImg, imgURLs[0], wrap);
+            wrap.addEventListener('click', function (e) {
+                if (e.target.closest('.img-nav')) return;
+                if (e.target.closest('.img-dots')) return;
+                const cur = parseInt(wrap.dataset.current || '0');
+                openLightbox(wrap._imgURLs, cur, wrap._title, wrap._desc);
+            });
+        });
+    }
+
+    function slideImg(cardId, dir) {
+        const wrap = document.getElementById('wrap-' + cardId);
+        if (!wrap || !wrap._imgURLs) return;
+        const urls = wrap._imgURLs;
+        let cur = parseInt(wrap.dataset.current || '0');
+        cur = (cur + dir + urls.length) % urls.length;
+        goSlide(cardId, cur);
+    }
+    function goSlide(cardId, idx) {
+        const wrap = document.getElementById('wrap-' + cardId);
+        if (!wrap || !wrap._imgURLs) return;
+        const urls = wrap._imgURLs;
+        idx = ((idx % urls.length) + urls.length) % urls.length;
+        wrap.dataset.current = idx;
+        const mainImg = document.getElementById('mainimg-' + cardId);
+        if (mainImg) { wrap.classList.add('shimmer'); loadImage(mainImg, urls[idx], wrap); }
+        const counter = document.getElementById('counter-' + cardId);
+        if (counter) counter.textContent = (idx + 1) + ' / ' + urls.length;
+        const dots = document.querySelectorAll('#dots-' + cardId + ' .img-dot');
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
+
+    /* ---------- IMAGE LIGHTBOX ---------- */
+    let lightboxURLs = [];
+    let lightboxIndex = 0;
+    let lightboxTitle = '';
+    let lightboxDescText = '';
+
+    function openLightbox(urls, startIdx, title, desc) {
+        if (!urls || !urls.length) return;
+        lightboxURLs = urls;
+        lightboxIndex = startIdx || 0;
+        lightboxTitle = title || '';
+        lightboxDescText = desc || '';
+        updateLightbox();
+        document.getElementById('imgLightbox').classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+        document.getElementById('imgLightbox').classList.remove('show');
+        document.body.style.overflow = '';
+    }
+    function lightboxNav(dir) {
+        if (!lightboxURLs.length) return;
+        lightboxIndex = (lightboxIndex + dir + lightboxURLs.length) % lightboxURLs.length;
+        updateLightbox();
+    }
+    function updateLightbox() {
+        const img = document.getElementById('lightboxImg');
+        const caption = document.getElementById('lightboxCaption');
+        const descEl = document.getElementById('lightboxDesc');
+        const counter = document.getElementById('lightboxCounter');
+        const prevBtn = document.getElementById('lightboxPrev');
+        const nextBtn = document.getElementById('lightboxNext');
+        img.src = lightboxURLs[lightboxIndex];
+        caption.textContent = lightboxTitle;
+        descEl.innerHTML = (lightboxDescText || '').replace(/\n/g, '<br>');
+        if (lightboxURLs.length > 1) {
+            counter.textContent = (lightboxIndex + 1) + ' / ' + lightboxURLs.length;
+            counter.style.display = '';
+            prevBtn.style.display = '';
+            nextBtn.style.display = '';
+        } else {
+            counter.style.display = 'none';
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+        }
+    }
+    document.addEventListener('keydown', function (e) {
+        const overlay = document.getElementById('imgLightbox');
+        if (!overlay.classList.contains('show')) return;
+        if (e.key === 'Escape') closeLightbox();
+        else if (e.key === 'ArrowLeft') lightboxNav(-1);
+        else if (e.key === 'ArrowRight') lightboxNav(1);
+    });
+    document.getElementById('imgLightbox').addEventListener('click', function (e) {
+        if (e.target === this) closeLightbox();
+    });
+
+    function toggleDesc(cardId) {
+        const desc = document.getElementById('desc-' + cardId);
+        const btn = desc.nextElementSibling;
+        if (!desc || !btn || !btn.classList.contains('news-card-expand')) return;
+        const expanded = desc.classList.toggle('expanded');
+        btn.textContent = expanded ? 'குறைவாக படிக்க ▲' : 'மேலும் படிக்க ▼';
+    }
+
+    function escHtml(str) {
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function escAttr(str) { return escHtml(str); }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const wrapper = document.getElementById('newsTrackWrapper');
+        const SCROLL_AMOUNT = 340;
+        document.getElementById('scrollLeft').addEventListener('click', function () { wrapper.scrollBy({ left: -SCROLL_AMOUNT, behavior: 'smooth' }); });
+        document.getElementById('scrollRight').addEventListener('click', function () { wrapper.scrollBy({ left: SCROLL_AMOUNT, behavior: 'smooth' }); });
+        let isDown = false, startX, scrollLeft;
+        wrapper.addEventListener('mousedown', e => { isDown = true; wrapper.style.cursor = 'grabbing'; startX = e.pageX - wrapper.offsetLeft; scrollLeft = wrapper.scrollLeft; });
+        wrapper.addEventListener('mouseleave', () => { isDown = false; wrapper.style.cursor = 'grab'; });
+        wrapper.addEventListener('mouseup', () => { isDown = false; wrapper.style.cursor = 'grab'; });
+        wrapper.addEventListener('mousemove', e => { if (!isDown) return; e.preventDefault(); const x = e.pageX - wrapper.offsetLeft; wrapper.scrollLeft = scrollLeft - (x - startX) * 1.2; });
+    });
+
+    async function loadNews() {
+        const grid = document.getElementById('newsGrid');
+        try {
+            const res = await fetch(SHEET_CSV_URL);
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const csv = await res.text();
+            const items = parseCSV(csv);
+            renderNews(items);
+        } catch (e) {
+            grid.innerHTML = `<div class="news-state error"><i class="fa-solid fa-triangle-exclamation"></i><p style="margin-top:10px">செய்திகளை ஏற்ற முடியவில்லை. சிறிது நேரம் கழித்து மீண்டும் முயற்சிக்கவும்.</p></div>`;
+            console.error('News load error:', e);
+        }
+    }
+
+    loadNews();
+    </script>
+
+</body>
+</html>
