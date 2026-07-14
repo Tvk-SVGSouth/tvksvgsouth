@@ -1,0 +1,9 @@
+{
+  "name": "tvk-svg-south",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TVK Sivagangai South District - website with grievance ticketing system",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4"
+  }
+}
