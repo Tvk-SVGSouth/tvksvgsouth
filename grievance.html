@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>புகார் மையம் | Grievance Cell - TVK சிவகங்கை தெற்கு</title>
+<meta name="theme-color" content="#800000">
+<link rel="apple-touch-icon" href="./Images/icon-192.png">
+<link rel="icon" type="image/jpeg" href="./Images/Tvk-banner.jpg.jpeg">
+<link rel="manifest" href="./manifest.json">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;600;700&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --primary:#b30000; --primary-dark:#800000; --gold:#ffcc00;
+  --ink:#1a1a1a; --paper:#fffaf0; --muted:#6b6560;
+  --acknowledge:#2563eb; --progress:#d97706; --resolved:#15803d; --pending:#7c3aed;
+  --card-shadow:0 4px 20px rgba(0,0,0,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,'Noto Sans Tamil',Verdana,sans-serif;}
+body{background:#f8f5f0;color:var(--ink);line-height:1.6;}
+.mono{font-family:'JetBrains Mono',monospace;}
+
+/* TOP BAR */
+.topbar{background:linear-gradient(135deg,#800000,#b30000 60%,#cc0000);color:#fff;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,.15);position:sticky;top:0;z-index:50;}
+.topbar a.back{color:#ffe5e5;text-decoration:none;font-size:.92rem;display:flex;align-items:center;gap:6px;}
+.topbar a.back:hover{color:var(--gold);}
+.topbar .title{font-weight:800;font-size:1.05rem;color:var(--gold);text-align:center;}
+.topbar .title small{display:block;font-weight:600;color:#ffe5e5;font-size:.72rem;}
+.topbar .spacer{width:70px;}
+
+/* HERO */
+.hero{max-width:820px;margin:26px auto 0;padding:0 18px;text-align:center;}
+.hero h1{font-size:1.6rem;color:var(--primary-dark);margin-bottom:6px;}
+.hero p{color:var(--muted);font-size:.95rem;}
+
+/* TABS */
+.tabs{max-width:820px;margin:22px auto 0;padding:0 18px;display:flex;gap:10px;}
+.tab-btn{flex:1;padding:13px 10px;background:#fff;border:2px solid #eadfd3;border-radius:10px;font-weight:700;font-size:.92rem;color:var(--muted);cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:0 4px 14px rgba(179,0,0,.25);}
+.tab-btn i{font-size:.95rem;}
+
+.panel{max-width:820px;margin:20px auto 60px;padding:0 18px;}
+.card{background:#fff;border-radius:14px;box-shadow:var(--card-shadow);padding:28px 26px;border-top:5px solid var(--primary);}
+
+/* FORM */
+.field{margin-bottom:18px;}
+.field label{display:block;font-weight:700;font-size:.88rem;color:var(--primary-dark);margin-bottom:6px;}
+.field .en{font-weight:500;color:var(--muted);font-size:.78rem;}
+.field input[type=text],.field input[type=tel],.field textarea,.field select{
+  width:100%;padding:11px 13px;border:1.5px solid #e2d8ca;border-radius:8px;font-size:.95rem;color:var(--ink);background:#fffdfa;transition:.2s;
+}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(179,0,0,.1);}
+.field textarea{resize:vertical;min-height:90px;}
+.hint{font-size:.78rem;color:var(--muted);margin-top:5px;}
+.req{color:var(--primary);}
+
+.radio-row{display:flex;gap:16px;flex-wrap:wrap;}
+.radio-opt{display:flex;align-items:center;gap:7px;background:#fdf6ee;border:1.5px solid #e2d8ca;border-radius:8px;padding:9px 14px;cursor:pointer;font-size:.9rem;flex:1;min-width:180px;}
+.radio-opt input{accent-color:var(--primary);}
+.radio-opt.checked{border-color:var(--primary);background:#fdece9;}
+
+/* FILE UPLOAD */
+.upload-box{border:2px dashed #d9c9b3;border-radius:10px;padding:22px;text-align:center;cursor:pointer;transition:.2s;background:#fffdfa;}
+.upload-box:hover{border-color:var(--primary);}
+.upload-box i{font-size:1.6rem;color:var(--primary);margin-bottom:8px;display:block;}
+.upload-box .fname{margin-top:8px;font-size:.85rem;font-weight:600;color:var(--ink);}
+.upload-progress{height:6px;background:#eee;border-radius:4px;margin-top:10px;overflow:hidden;display:none;}
+.upload-progress-bar{height:100%;background:var(--primary);width:0%;transition:width .2s;}
+.upload-status{font-size:.78rem;margin-top:6px;color:var(--muted);}
+.upload-status.success{color:var(--resolved);font-weight:700;}
+.upload-status.error{color:var(--primary);font-weight:700;}
+
+.submit-btn{width:100%;background:var(--primary);color:#fff;border:none;padding:15px;border-radius:9px;font-weight:800;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:.2s;margin-top:6px;}
+.submit-btn:hover{background:var(--primary-dark);}
+.submit-btn:disabled{background:#c9a8a8;cursor:not-allowed;}
+.form-error{background:#fdece9;border:1px solid var(--primary);color:var(--primary-dark);padding:11px 14px;border-radius:8px;font-size:.85rem;margin-bottom:16px;display:none;}
+
+/* TICKET STUB (success state) */
+.stub-wrap{display:none;text-align:center;}
+.stub{background:var(--paper);border-radius:14px;box-shadow:var(--card-shadow);padding:0;overflow:hidden;position:relative;border:1px solid #eadfc9;}
+.stub-top{background:linear-gradient(135deg,#800000,#b30000);color:#fff;padding:22px 20px 26px;position:relative;}
+.stub-top i{font-size:1.8rem;color:var(--gold);margin-bottom:6px;}
+.stub-top h2{font-size:1.15rem;font-weight:800;}
+.stub-top p{font-size:.82rem;color:#ffe5e5;margin-top:4px;}
+.stub-perf{position:relative;height:0;}
+.stub-perf::before{content:'';position:absolute;left:-10px;top:-10px;width:20px;height:20px;background:#f8f5f0;border-radius:50%;}
+.stub-perf::after{content:'';position:absolute;right:-10px;top:-10px;width:20px;height:20px;background:#f8f5f0;border-radius:50%;}
+.stub-dash{border-top:2px dashed #d9c9b3;margin:0 22px;}
+.stub-body{padding:22px 26px 26px;}
+.stub-id-label{font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:6px;}
+.stub-id{font-size:1.7rem;font-weight:800;color:var(--primary-dark);letter-spacing:1px;word-break:break-all;}
+.stub-copy{margin-top:10px;background:#fdece9;border:1px solid var(--primary);color:var(--primary);padding:8px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;display:inline-flex;align-items:center;gap:7px;}
+.stub-copy:hover{background:var(--primary);color:#fff;}
+.stub-note{margin-top:18px;font-size:.85rem;color:var(--muted);line-height:1.7;text-align:left;background:#fff;border-radius:8px;padding:14px 16px;border:1px solid #eee;}
+.stub-actions{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.stub-actions button,.stub-actions a{background:var(--primary);color:#fff;border:none;padding:11px 20px;border-radius:8px;font-weight:700;font-size:.85rem;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;}
+.stub-actions .ghost{background:#fff;color:var(--primary);border:1.5px solid var(--primary);}
+
+/* TRACK */
+.track-form{display:flex;flex-direction:column;gap:14px;}
+.track-result{margin-top:24px;display:none;}
+.status-badge{display:inline-flex;align-items:center;gap:7px;padding:6px 16px;border-radius:20px;font-weight:800;font-size:.82rem;color:#fff;}
+.status-Acknowledge{background:var(--acknowledge);}
+.status-WorkinProgress{background:var(--progress);}
+.status-Resolved{background:var(--resolved);}
+.status-Pending{background:var(--pending);}
+.track-card{margin-top:14px;}
+.track-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0e8dc;font-size:.88rem;}
+.track-row:last-child{border-bottom:none;}
+.track-row .k{color:var(--muted);font-weight:600;}
+.track-row .v{font-weight:600;text-align:right;max-width:60%;}
+.timeline{margin-top:18px;}
+.timeline h4{font-size:.85rem;color:var(--primary-dark);margin-bottom:10px;}
+.timeline-item{border-left:3px solid var(--primary);padding:6px 0 6px 14px;margin-bottom:10px;font-size:.85rem;}
+.timeline-item .date{color:var(--muted);font-size:.75rem;}
+.not-found{display:none;text-align:center;padding:20px;color:var(--muted);}
+.not-found i{font-size:2rem;color:var(--primary);margin-bottom:10px;display:block;}
+
+.spin{animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* PRINT RECEIPT (screen: hidden / print: only this shows) */
+.print-only{display:none;}
+@media print{
+  body *{visibility:hidden;}
+  #printReceipt, #printReceipt *{visibility:visible;}
+  #printReceipt{display:block !important;position:absolute;top:0;left:0;width:100%;padding:30px;}
+  .pr-head{text-align:center;border-bottom:3px solid #800000;padding-bottom:14px;margin-bottom:20px;}
+  .pr-title{font-size:1.2rem;font-weight:800;color:#800000;}
+  .pr-sub{font-size:.9rem;color:#555;margin-top:4px;}
+  .pr-table{width:100%;border-collapse:collapse;}
+  .pr-table td{padding:9px 8px;border-bottom:1px solid #ddd;font-size:.88rem;vertical-align:top;}
+  .pr-table td:first-child{font-weight:700;color:#800000;width:38%;}
+  .pr-foot{margin-top:20px;font-size:.78rem;color:#777;text-align:center;}
+}
+
+@media(max-width:600px){
+  .card{padding:22px 18px;}
+  .stub-id{font-size:1.35rem;}
+  .topbar .title{font-size:.92rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back" href="index.html"><i class="fa-solid fa-arrow-left"></i> முகப்பு</a>
+  <div class="title">புகார் மையம்<small>Public Grievance &amp; Complaint Cell</small></div>
+  <div class="spacer"></div>
+</div>
+
+<div class="hero">
+  <h1>உங்கள் புகாரை பதிவு செய்யுங்கள்</h1>
+  <p>File your complaint directly on this site — no external form needed. You'll get a Ticket ID to track progress anytime.</p>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" id="tabBtnSubmit" onclick="switchTab('submit')"><i class="fa-solid fa-file-circle-plus"></i> புகார் பதிவு</button>
+  <button class="tab-btn" id="tabBtnTrack" onclick="switchTab('track')"><i class="fa-solid fa-magnifying-glass"></i> நிலை அறிய</button>
+</div>
+
+<div class="panel">
+
+  <!-- ============ SUBMIT PANEL ============ -->
+  <div id="panelSubmit" class="card">
+    <div class="form-error" id="formError"></div>
+
+    <form id="complaintForm">
+      <div class="field">
+        <label>1. முழுப் பெயர் <span class="en">| Full Name</span> <span class="req">*</span></label>
+        <input type="text" id="fName" required maxlength="120" placeholder="உங்கள் பெயர்">
+      </div>
+
+      <div class="field">
+        <label>2. தொடர்பு எண் <span class="en">| Contact Number (WhatsApp preferred)</span> <span class="req">*</span></label>
+        <input type="tel" id="fPhone" required maxlength="15" placeholder="10-இலக்க கைபேசி எண்">
+      </div>
+
+      <div class="field">
+        <label>3. மாவட்டம் / சட்டமன்றத் தொகுதி <span class="en">| Constituency</span> <span class="req">*</span></label>
+        <select id="fConstituency" required>
+          <option value="" disabled selected>தேர்வு செய்யவும் | Select</option>
+          <option value="Sivagangai">Sivagangai | சிவகங்கை</option>
+          <option value="Manamadurai">Manamadurai | மானாமதுரை</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>4. முழு முகவரி <span class="en">| Full Address</span> <span class="req">*</span></label>
+        <textarea id="fAddress" required placeholder="வீட்டு எண், தெரு, ஊர், பின்கோடு"></textarea>
+      </div>
+
+      <div class="field">
+        <label>5. குறையின் வகை <span class="en">| Category of Grievance</span> <span class="req">*</span></label>
+        <select id="fCategory" required onchange="toggleOtherCategory()">
+          <option value="" disabled selected>தேர்வு செய்யவும் | Select</option>
+          <option value="Roads & Infrastructure | சாலைகள் மற்றும் உள்கட்டமைப்பு">Roads & Infrastructure | சாலைகள் மற்றும் உள்கட்டமைப்பு</option>
+          <option value="Water Supply & Sewage | குடிநீர் விநியோகம் மற்றும் பாதாள சாக்கடை">Water Supply & Sewage | குடிநீர் விநியோகம்</option>
+          <option value="Electricity / Power Issues | மின்சாரப் பிரச்சினைகள்">Electricity / Power Issues | மின்சாரப் பிரச்சினைகள்</option>
+          <option value="Sanitation & Garbage | தூய்மைப் பணி மற்றும் குப்பை மேலாண்மை">Sanitation & Garbage | தூய்மைப் பணி</option>
+          <option value="Ration Card / Food Security | ரேஷன் கார்டு / உணவுப் பாதுகாப்பு">Ration Card / Food Security | ரேஷன் கார்டு</option>
+          <option value="Government Schemes & Pensions | அரசுத் திட்டங்கள் மற்றும் ஓய்வூதியம்">Govt Schemes & Pensions | அரசுத் திட்டங்கள்</option>
+          <option value="Law & Order / Safety | சட்டம் ஒழுங்கு / பாதுகாப்பு">Law & Order / Safety | சட்டம் ஒழுங்கு</option>
+          <option value="Other">Other | பிற</option>
+        </select>
+        <input type="text" id="fCategoryOther" style="display:none;margin-top:10px;" placeholder="குறையின் வகையை குறிப்பிடவும் | Specify category">
+      </div>
+
+      <div class="field">
+        <label>6. புகாரின் தலைப்பு <span class="en">| Subject</span> <span class="req">*</span></label>
+        <input type="text" id="fSubject" required maxlength="200" placeholder="எ.கா., பிரதான சாலையில் குடிநீர் கசிவு">
+        <div class="hint">ஒரு வரியில் சுருக்கமாகக் குறிப்பிடவும் | One-line summary</div>
+      </div>
+
+      <div class="field">
+        <label>7. பிரச்சினையின் விரிவான விளக்கம் <span class="en">| Detailed Description</span> <span class="req">*</span></label>
+        <textarea id="fDescription" required placeholder="குறிப்பிட்ட விவரங்கள், அடையாளங்கள், எவ்வளவு நாட்களாக உள்ளது என்பதை விவரிக்கவும்"></textarea>
+      </div>
+
+      <div class="field">
+        <label>8. ஆதாரங்களை பதிவேற்றவும் <span class="en">| Upload Evidence (optional, max 10MB)</span></label>
+        <div class="upload-box" id="uploadBox" onclick="document.getElementById('fFile').click()">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <div>புகைப்படம் / வீடியோ / ஆவணம் பதிவேற்ற இங்கே கிளிக் செய்யவும்</div>
+          <div class="hint">Photo / Video / Document — click to upload</div>
+          <div class="fname" id="fFileName"></div>
+        </div>
+        <input type="file" id="fFile" style="display:none" accept="image/*,video/*,.pdf" onchange="handleFileSelect(event)">
+        <div class="upload-progress" id="uploadProgressWrap"><div class="upload-progress-bar" id="uploadProgressBar"></div></div>
+        <div class="upload-status" id="uploadStatus"></div>
+      </div>
+
+      <div class="field">
+        <label>9. எங்கள் பிரதிநிதிகள் உங்களை நேரடியாகத் தொடர்பு கொள்ளலாமா? <span class="en">| May we contact you directly?</span> <span class="req">*</span></label>
+        <div class="radio-row">
+          <label class="radio-opt" id="consentYesWrap"><input type="radio" name="consent" value="yes" required onchange="updateConsentUI()"> ஆம் | Yes, please contact me</label>
+          <label class="radio-opt" id="consentNoWrap"><input type="radio" name="consent" value="no" onchange="updateConsentUI()"> இல்லை | No, just resolve it</label>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">
+        <i class="fa-solid fa-paper-plane"></i> புகாரைப் பதிவு செய்யவும் | Submit Complaint
+      </button>
+    </form>
+  </div>
+
+  <!-- ============ SUCCESS STUB ============ -->
+  <div class="stub-wrap" id="stubWrap">
+    <div class="stub">
+      <div class="stub-top">
+        <i class="fa-solid fa-circle-check"></i>
+        <h2>புகார் வெற்றிகரமாக பதிவு செய்யப்பட்டது!</h2>
+        <p>Your complaint has been received</p>
+      </div>
+      <div class="stub-dash"></div>
+      <div class="stub-body">
+        <div class="stub-id-label">Ticket ID · உங்கள் புகார் எண்</div>
+        <div class="stub-id mono" id="stubTicketId">—</div>
+        <button class="stub-copy" onclick="copyTicketId()"><i class="fa-regular fa-copy"></i> நகலெடு | Copy</button>
+        <div class="stub-note">
+          <strong>இந்த எண்ணை பாதுகாக்கவும்.</strong> இதைப் பயன்படுத்தி உங்கள் புகாரின் நிலையை எப்போது வேண்டுமானாலும் அறியலாம்.<br><br>
+          <strong>Save this number.</strong> Use it anytime with your phone number to check your complaint's status.
+        </div>
+        <div class="stub-actions">
+          <button onclick="printReceipt()"><i class="fa-solid fa-file-arrow-down"></i> பிரதி பதிவிறக்க | Download Receipt</button>
+          <button onclick="goTrackThisTicket()"><i class="fa-solid fa-magnifying-glass"></i> நிலை அறிய | Track Now</button>
+          <button class="ghost" onclick="resetForm()"><i class="fa-solid fa-plus"></i> மற்றொரு புகார் | New Complaint</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Print-only receipt: hidden on screen, shown only when printing/saving as PDF -->
+  <div id="printReceipt" class="print-only">
+    <div class="pr-head">
+      <div class="pr-title">TVK Sivagangai South — Public Grievance &amp; Complaint Cell</div>
+      <div class="pr-sub">புகார் மையம் · Complaint Receipt</div>
+    </div>
+    <table class="pr-table">
+      <tr><td>Ticket ID / புகார் எண்</td><td id="prTicketId"></td></tr>
+      <tr><td>Date Filed / தேதி</td><td id="prDate"></td></tr>
+      <tr><td>Full Name / பெயர்</td><td id="prName"></td></tr>
+      <tr><td>Phone / தொடர்பு எண்</td><td id="prPhone"></td></tr>
+      <tr><td>Constituency / தொகுதி</td><td id="prConstituency"></td></tr>
+      <tr><td>Category / வகை</td><td id="prCategory"></td></tr>
+      <tr><td>Subject / தலைப்பு</td><td id="prSubject"></td></tr>
+      <tr><td>Description / விளக்கம்</td><td id="prDescription"></td></tr>
+      <tr><td>Address / முகவரி</td><td id="prAddress"></td></tr>
+      <tr><td>Status / நிலை</td><td>Acknowledge</td></tr>
+    </table>
+    <div class="pr-foot">Track anytime at this site using your Ticket ID and phone number.</div>
+  </div>
+
+  <!-- ============ TRACK PANEL ============ -->
+  <div id="panelTrack" class="card" style="display:none;">
+    <form class="track-form" id="trackForm">
+      <div class="field">
+        <label>Ticket ID <span class="en">| புகார் எண்</span> <span class="req">*</span></label>
+        <input type="text" id="tTicketId" required placeholder="எ.கா., tvksvg-Road001" class="mono">
+      </div>
+      <div class="field">
+        <label>தொடர்பு எண் <span class="en">| Phone Number</span> <span class="req">*</span></label>
+        <input type="tel" id="tPhone" required maxlength="15" placeholder="புகார் பதிவு செய்த கைபேசி எண்">
+      </div>
+      <button type="submit" class="submit-btn" id="trackBtn">
+        <i class="fa-solid fa-magnifying-glass"></i> நிலை அறியவும் | Check Status
+      </button>
+    </form>
+
+    <div class="not-found" id="trackNotFound">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <div>புகார் எண் அல்லது தொடர்பு எண் பொருந்தவில்லை.</div>
+      <div class="hint">Ticket ID or phone number doesn't match our records.</div>
+    </div>
+
+    <div class="track-result" id="trackResult">
+      <div id="trackStatusBadge"></div>
+      <div class="track-card">
+        <div class="track-row"><span class="k">Ticket ID</span><span class="v mono" id="tvTicketId"></span></div>
+        <div class="track-row"><span class="k">பெயர் | Name</span><span class="v" id="tvName"></span></div>
+        <div class="track-row"><span class="k">வகை | Category</span><span class="v" id="tvCategory"></span></div>
+        <div class="track-row"><span class="k">தலைப்பு | Subject</span><span class="v" id="tvSubject"></span></div>
+        <div class="track-row"><span class="k">பதிவு தேதி | Filed on</span><span class="v" id="tvCreated"></span></div>
+        <div class="track-row"><span class="k">கடைசி புதுப்பிப்பு | Last update</span><span class="v" id="tvUpdated"></span></div>
+      </div>
+      <div class="timeline" id="timelineWrap" style="display:none;">
+        <h4>புதுப்பிப்புகள் | Updates from our office</h4>
+        <div id="timelineItems"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ================= CONFIG ================= */
+/* Create a free account at https://cloudinary.com, add an UNSIGNED upload
+   preset (Settings -> Upload -> Add upload preset -> Signing mode: Unsigned),
+   then fill in the two values below. See SETUP.md for step-by-step help. */
+const CLOUDINARY_CLOUD_NAME = 'xmfy2c02';
+const CLOUDINARY_UPLOAD_PRESET = 'SVGSOUTH';
+
+let uploadedAttachment = { url: '', type: '' };
+let lastTicketId = '';
+let lastSubmittedPayload = null;
+let lastSubmittedAt = null;
+
+/* ================= TABS ================= */
+function switchTab(tab){
+  document.getElementById('panelSubmit').style.display = tab === 'submit' ? 'block' : 'none';
+  document.getElementById('panelTrack').style.display = tab === 'track' ? 'block' : 'none';
+  document.getElementById('stubWrap').style.display = 'none';
+  document.getElementById('tabBtnSubmit').classList.toggle('active', tab === 'submit');
+  document.getElementById('tabBtnTrack').classList.toggle('active', tab === 'track');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function toggleOtherCategory(){
+  const cat = document.getElementById('fCategory').value;
+  document.getElementById('fCategoryOther').style.display = cat === 'Other' ? 'block' : 'none';
+}
+
+function updateConsentUI(){
+  document.getElementById('consentYesWrap').classList.toggle('checked', document.querySelector('input[name=consent][value=yes]').checked);
+  document.getElementById('consentNoWrap').classList.toggle('checked', document.querySelector('input[name=consent][value=no]').checked);
+}
+
+/* ================= FILE UPLOAD ================= */
+function handleFileSelect(e){
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) {
+    showUploadStatus('கோப்பு 10MB க்கும் குறைவாக இருக்க வேண்டும் | File must be under 10MB', 'error');
+    e.target.value = '';
+    return;
+  }
+  document.getElementById('fFileName').textContent = file.name;
+  uploadToCloudinary(file);
+}
+
+function showUploadStatus(msg, kind){
+  const el = document.getElementById('uploadStatus');
+  el.textContent = msg;
+  el.className = 'upload-status' + (kind ? ' ' + kind : '');
+}
+
+function uploadToCloudinary(file){
+  if (CLOUDINARY_CLOUD_NAME === 'YOUR_CLOUD_NAME') {
+    showUploadStatus('கோப்பு பதிவேற்றம் இன்னும் அமைக்கப்படவில்லை (Cloudinary config pending) — படிவத்தை கோப்பு இல்லாமல் சமர்ப்பிக்கலாம்.', 'error');
+    return;
+  }
+  const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', url, true);
+
+  const wrap = document.getElementById('uploadProgressWrap');
+  const bar = document.getElementById('uploadProgressBar');
+  wrap.style.display = 'block';
+  bar.style.width = '0%';
+  showUploadStatus('பதிவேற்றுகிறது... | Uploading...', '');
+
+  xhr.upload.onprogress = function(evt){
+    if (evt.lengthComputable) {
+      bar.style.width = Math.round((evt.loaded / evt.total) * 100) + '%';
+    }
+  };
+
+  xhr.onload = function(){
+    try {
+      const res = JSON.parse(xhr.responseText);
+      if (xhr.status >= 200 && xhr.status < 300 && res.secure_url) {
+        uploadedAttachment = { url: res.secure_url, type: res.resource_type || 'image' };
+        showUploadStatus('✓ பதிவேற்றம் முடிந்தது | Upload complete', 'success');
+      } else {
+        showUploadStatus('பதிவேற்றம் தோல்வியடைந்தது | Upload failed. You can still submit without the file.', 'error');
+      }
+    } catch (e) {
+      showUploadStatus('பதிவேற்றம் தோல்வியடைந்தது | Upload failed', 'error');
+    }
+  };
+  xhr.onerror = function(){
+    showUploadStatus('பதிவேற்றம் தோல்வியடைந்தது | Upload failed — check your connection', 'error');
+  };
+  xhr.send(formData);
+}
+
+/* ================= SUBMIT COMPLAINT ================= */
+document.getElementById('complaintForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const errEl = document.getElementById('formError');
+  errEl.style.display = 'none';
+
+  const consentInput = document.querySelector('input[name=consent]:checked');
+  if (!consentInput) {
+    errEl.textContent = 'தொடர்பு கொள்ளலாமா என்பதைத் தேர்வு செய்யவும் | Please select a contact preference.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  let category = document.getElementById('fCategory').value;
+  if (category === 'Other') {
+    const other = document.getElementById('fCategoryOther').value.trim();
+    category = other ? ('Other: ' + other) : 'Other';
+  }
+
+  const payload = {
+    name: document.getElementById('fName').value.trim(),
+    phone: document.getElementById('fPhone').value.trim(),
+    constituency: document.getElementById('fConstituency').value,
+    address: document.getElementById('fAddress').value.trim(),
+    category: category,
+    subject: document.getElementById('fSubject').value.trim(),
+    description: document.getElementById('fDescription').value.trim(),
+    attachmentUrl: uploadedAttachment.url,
+    attachmentType: uploadedAttachment.type,
+    consent: consentInput.value
+  };
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner spin"></i> சமர்ப்பிக்கிறது...';
+
+  try {
+    const res = await fetch('/.netlify/functions/submit-complaint', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      throw new Error(data.error || 'submit_failed');
+    }
+    lastTicketId = data.ticketId;
+    lastSubmittedPayload = payload;
+    lastSubmittedAt = new Date();
+    document.getElementById('stubTicketId').textContent = data.ticketId;
+    document.getElementById('panelSubmit').style.display = 'none';
+    document.getElementById('stubWrap').style.display = 'block';
+    window.scrollTo({top:0, behavior:'smooth'});
+  } catch (err) {
+    errEl.textContent = 'ஏதோ தவறு நடந்தது. மீண்டும் முயற்சிக்கவும் | Something went wrong. Please try again.';
+    errEl.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> புகாரைப் பதிவு செய்யவும் | Submit Complaint';
+  }
+});
+
+function printReceipt(){
+  if (!lastSubmittedPayload) return;
+  const p = lastSubmittedPayload;
+  document.getElementById('prTicketId').textContent = lastTicketId;
+  document.getElementById('prDate').textContent = (lastSubmittedAt || new Date()).toLocaleString('en-IN');
+  document.getElementById('prName').textContent = p.name;
+  document.getElementById('prPhone').textContent = p.phone;
+  document.getElementById('prConstituency').textContent = p.constituency;
+  document.getElementById('prCategory').textContent = p.category;
+  document.getElementById('prSubject').textContent = p.subject;
+  document.getElementById('prDescription').textContent = p.description;
+  document.getElementById('prAddress').textContent = p.address;
+  window.print();
+}
+
+function copyTicketId(){
+  navigator.clipboard.writeText(lastTicketId).then(() => {
+    const btn = document.querySelector('.stub-copy');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> நகலெடுக்கப்பட்டது!';
+    setTimeout(() => btn.innerHTML = orig, 1800);
+  });
+}
+
+function goTrackThisTicket(){
+  document.getElementById('stubWrap').style.display = 'none';
+  switchTab('track');
+  document.getElementById('tTicketId').value = lastTicketId;
+}
+
+function resetForm(){
+  document.getElementById('complaintForm').reset();
+  uploadedAttachment = { url: '', type: '' };
+  document.getElementById('fFileName').textContent = '';
+  document.getElementById('uploadProgressWrap').style.display = 'none';
+  document.getElementById('uploadStatus').textContent = '';
+  document.getElementById('fCategoryOther').style.display = 'none';
+  document.getElementById('stubWrap').style.display = 'none';
+  switchTab('submit');
+}
+
+/* ================= TRACK ================= */
+const STATUS_LABELS = {
+  'Acknowledge': 'ஏற்றுக்கொள்ளப்பட்டது | Acknowledge',
+  'Work in Progress': 'செயலில் உள்ளது | Work in Progress',
+  'Pending': 'நிலுவையில் | Pending',
+  'Resolved': 'தீர்க்கப்பட்டது | Resolved'
+};
+
+document.getElementById('trackForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  document.getElementById('trackResult').style.display = 'none';
+  document.getElementById('trackNotFound').style.display = 'none';
+
+  const btn = document.getElementById('trackBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner spin"></i> தேடுகிறது...';
+
+  try {
+    const res = await fetch('/.netlify/functions/track-ticket', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ticketId: document.getElementById('tTicketId').value.trim(),
+        phone: document.getElementById('tPhone').value.trim()
+      })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      document.getElementById('trackNotFound').style.display = 'block';
+      return;
+    }
+    renderTrackResult(data.ticket);
+  } catch (err) {
+    document.getElementById('trackNotFound').style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> நிலை அறியவும் | Check Status';
+  }
+});
+
+function renderTrackResult(t){
+  const statusClass = 'status-' + t.status.replace(/\s+/g, '');
+  document.getElementById('trackStatusBadge').innerHTML =
+    `<span class="status-badge ${statusClass}"><i class="fa-solid fa-circle-dot"></i> ${STATUS_LABELS[t.status] || t.status}</span>`;
+  document.getElementById('tvTicketId').textContent = t.id;
+  document.getElementById('tvName').textContent = t.name;
+  document.getElementById('tvCategory').textContent = t.category;
+  document.getElementById('tvSubject').textContent = t.subject;
+  document.getElementById('tvCreated').textContent = formatDate(t.createdAt);
+  document.getElementById('tvUpdated').textContent = formatDate(t.updatedAt);
+
+  const notes = t.notes || [];
+  const tlWrap = document.getElementById('timelineWrap');
+  const tlItems = document.getElementById('timelineItems');
+  if (notes.length) {
+    tlWrap.style.display = 'block';
+    tlItems.innerHTML = notes.slice().reverse().map(n =>
+      `<div class="timeline-item"><div>${escHtml(n.text)}</div><div class="date">${formatDate(n.at)}</div></div>`
+    ).join('');
+  } else {
+    tlWrap.style.display = 'none';
+  }
+  document.getElementById('trackResult').style.display = 'block';
+}
+
+function formatDate(iso){
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) + ', ' +
+         d.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+}
+function escHtml(str){
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+if (window.location.hash === '#track') {
+  switchTab('track');
+}
+</script>
+
+</body>
+</html>

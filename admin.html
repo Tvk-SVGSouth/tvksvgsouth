@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | TVK Sivagangai South</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/jpeg" href="./Images/Tvk-banner.jpg.jpeg">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --primary:#b30000; --primary-dark:#800000; --gold:#ffcc00;
+  --ink:#1a1a1a; --muted:#6b6560; --bg:#f4f1ec;
+  --acknowledge:#2563eb; --progress:#d97706; --resolved:#15803d; --pending:#7c3aed;
+  --overlay-dark:rgba(10,8,6,.72);
+  --card-shadow:0 2px 14px rgba(0,0,0,.06);
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
+body{background:var(--bg);color:var(--ink);}
+.mono{font-family:'JetBrains Mono',monospace;}
+
+/* ============ LOGIN ============ */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;background:#0a0806 url('./Images/Tvk-banner.jpg.jpeg') center 20%/cover no-repeat;}
+.login-wrap::before{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(128,0,0,.55),rgba(10,8,6,.88));}
+.login-card{position:relative;z-index:2;background:rgba(255,255,255,.97);backdrop-filter:blur(6px);border-radius:16px;box-shadow:0 25px 70px rgba(0,0,0,.5);padding:42px 36px;max-width:390px;width:100%;text-align:center;border-top:4px solid var(--gold);}
+.login-card i.badge{font-size:2.2rem;color:var(--primary);margin-bottom:10px;}
+.login-card h1{font-size:1.3rem;color:var(--primary-dark);margin-bottom:4px;}
+.login-card p{color:var(--muted);font-size:.85rem;margin-bottom:22px;}
+.login-card input{width:100%;padding:12px 14px;border:1.5px solid #e2d8ca;border-radius:8px;font-size:.95rem;margin-bottom:14px;}
+.login-card input:focus{outline:none;border-color:var(--primary);}
+.login-card button{width:100%;background:var(--primary);color:#fff;border:none;padding:13px;border-radius:8px;font-weight:800;font-size:.95rem;cursor:pointer;}
+.login-card button:hover{background:var(--primary-dark);}
+.login-err{color:var(--primary);font-size:.82rem;margin-top:12px;display:none;}
+
+/* ============ DASHBOARD SHELL ============ */
+#dash{display:none;}
+.dash-header{background:linear-gradient(150deg,rgba(128,0,0,.93),rgba(179,0,0,.88) 60%),url('./Images/Tvk-banner.jpg.jpeg') center 15%/cover no-repeat;color:#fff;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 16px rgba(0,0,0,.25);position:sticky;top:0;z-index:40;flex-wrap:wrap;gap:12px;border-bottom:3px solid var(--gold);}
+.dash-header .brand{font-weight:800;font-size:1.05rem;color:var(--gold);display:flex;align-items:center;gap:10px;}
+.dash-header .actions{display:flex;gap:10px;align-items:center;}
+.dash-header button{background:rgba(255,255,255,.15);color:#fff;border:none;padding:9px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;display:flex;align-items:center;gap:7px;}
+.dash-header button:hover{background:rgba(255,255,255,.28);}
+
+.container{max-width:1300px;margin:0 auto;padding:24px 20px 60px;}
+
+/* STAT CARDS */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-bottom:26px;}
+.stat-card{background:#fff;border-radius:12px;box-shadow:var(--card-shadow);padding:18px 20px;border-left:5px solid var(--primary);display:flex;align-items:center;gap:14px;}
+.stat-card .icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;color:#fff;flex-shrink:0;background:var(--primary);}
+.stat-card .num{font-size:1.8rem;font-weight:800;color:var(--ink);}
+.stat-card .lbl{font-size:.78rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+.stat-card.st-overall{background:linear-gradient(135deg,#1a1a1a,#3a2a2a);border-left:5px solid var(--gold);}
+.stat-card.st-overall .num,.stat-card.st-overall .lbl{color:#fff;}
+.stat-card.st-overall .icon{background:var(--gold);color:#800000;}
+.stat-card.st-acknowledge{border-color:var(--acknowledge);}
+.stat-card.st-progress{border-color:var(--progress);}
+.stat-card.st-pending{border-color:var(--pending);}
+.stat-card.st-resolved{border-color:var(--resolved);}
+
+/* CATEGORY BREAKDOWN */
+.category-stats-wrap{background:#fff;border-radius:12px;box-shadow:var(--card-shadow);padding:18px 20px;margin-bottom:26px;}
+.category-stats-title{font-size:.86rem;text-transform:uppercase;letter-spacing:.4px;color:var(--primary-dark);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.category-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;}
+.cat-stat-card{background:#faf7f2;border:1.5px solid #eee0cf;border-radius:10px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:.15s;}
+.cat-stat-card:hover{border-color:var(--primary);background:#fdece9;}
+.cat-stat-card .cname{font-size:.8rem;font-weight:700;color:var(--ink);line-height:1.3;}
+.cat-stat-card .ccount{font-size:1.3rem;font-weight:800;color:var(--primary-dark);flex-shrink:0;}
+
+/* FILTER BAR */
+.filter-bar{background:#fff;border-radius:12px;box-shadow:var(--card-shadow);padding:16px 18px;margin-bottom:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+.filter-bar input, .filter-bar select{padding:9px 12px;border:1.5px solid #e2d8ca;border-radius:7px;font-size:.85rem;}
+.filter-bar input[type=text]{flex:1;min-width:200px;}
+.filter-bar .refresh-btn{background:var(--primary);color:#fff;border:none;padding:9px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;display:flex;align-items:center;gap:7px;}
+.filter-bar .refresh-btn:hover{background:var(--primary-dark);}
+
+/* TICKET LIST */
+.ticket-list{display:flex;flex-direction:column;gap:12px;}
+.ticket-row{background:#fff;border-radius:12px;box-shadow:var(--card-shadow);padding:16px 18px;display:flex;align-items:center;gap:16px;cursor:pointer;transition:.15s;flex-wrap:wrap;}
+.ticket-row:hover{box-shadow:0 6px 22px rgba(0,0,0,.1);transform:translateY(-1px);}
+.ticket-row .id-col{min-width:170px;}
+.ticket-row .tid{font-weight:800;font-size:.85rem;color:var(--primary-dark);}
+.ticket-row .tdate{font-size:.72rem;color:var(--muted);margin-top:2px;}
+.ticket-row .mid-col{flex:1;min-width:200px;}
+.ticket-row .tsubject{font-weight:700;font-size:.9rem;color:var(--ink);}
+.ticket-row .tmeta{font-size:.76rem;color:var(--muted);margin-top:3px;}
+.status-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:20px;font-weight:800;font-size:.72rem;color:#fff;white-space:nowrap;}
+.status-Acknowledge{background:var(--acknowledge);}
+.status-WorkinProgress{background:var(--progress);}
+.status-Resolved{background:var(--resolved);}
+.status-Pending{background:var(--pending);}
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted);}
+.empty-state i{font-size:2.4rem;color:#ccc;margin-bottom:12px;display:block;}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;align-items:flex-start;justify-content:center;padding:30px 16px;overflow-y:auto;}
+.modal-overlay.show{display:flex;}
+.modal{background:#fff;border-radius:14px;max-width:640px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.4);overflow:hidden;}
+.modal-head{background:linear-gradient(135deg,#800000,#b30000);color:#fff;padding:20px 24px;display:flex;justify-content:space-between;align-items:flex-start;}
+.modal-head .tid{font-size:1.1rem;font-weight:800;}
+.modal-head .close-btn{background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;flex-shrink:0;}
+.modal-body{padding:22px 24px;}
+.detail-row{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid #f0ece4;font-size:.86rem;}
+.detail-row .k{color:var(--muted);font-weight:600;flex-shrink:0;}
+.detail-row .v{font-weight:600;text-align:right;}
+.detail-block{margin-top:16px;}
+.detail-block h4{font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;color:var(--primary-dark);margin-bottom:6px;}
+.detail-block p{font-size:.88rem;line-height:1.7;background:#faf7f2;padding:12px 14px;border-radius:8px;}
+.attach-preview{margin-top:10px;}
+.attach-preview img{max-width:100%;border-radius:8px;}
+.attach-preview a{color:var(--primary);font-weight:700;font-size:.85rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;}
+.notes-list{margin-top:10px;}
+.note-item{background:#faf7f2;border-left:3px solid var(--primary);padding:8px 12px;border-radius:6px;margin-bottom:8px;font-size:.83rem;}
+.note-item .ndate{font-size:.7rem;color:var(--muted);margin-top:3px;}
+.update-form{margin-top:20px;border-top:1px solid #f0ece4;padding-top:18px;}
+.update-form label{font-size:.8rem;font-weight:700;color:var(--primary-dark);display:block;margin-bottom:6px;}
+.update-form select, .update-form textarea, .update-form input[type=text]{width:100%;padding:10px 12px;border:1.5px solid #e2d8ca;border-radius:8px;font-size:.88rem;margin-bottom:12px;}
+.update-form textarea{min-height:70px;resize:vertical;}
+.update-form button{background:var(--primary);color:#fff;border:none;padding:11px 20px;border-radius:8px;font-weight:800;font-size:.86rem;cursor:pointer;display:flex;align-items:center;gap:8px;}
+.update-form button:hover{background:var(--primary-dark);}
+.update-form button:disabled{background:#c9a8a8;cursor:not-allowed;}
+
+.spin{animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-state{text-align:center;padding:60px 20px;color:var(--muted);}
+.loading-state i{font-size:2rem;color:var(--primary);}
+
+@media print{
+  body *{visibility:hidden;}
+  .modal-overlay.show, .modal-overlay.show *{visibility:visible;}
+  .modal-overlay.show{position:absolute;top:0;left:0;background:#fff;padding:0;display:block;}
+  .modal-overlay.show .modal{box-shadow:none;max-width:100%;}
+  .modal-overlay.show .close-btn, .modal-overlay.show .update-form{display:none !important;}
+}
+
+@media(max-width:700px){
+  .ticket-row{flex-direction:column;align-items:flex-start;}
+  .detail-row{flex-direction:column;}
+  .detail-row .v{text-align:left;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN SCREEN ============ -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-card">
+    <i class="fa-solid fa-shield-halved badge"></i>
+    <h1>Admin Login</h1>
+    <p>TVK Sivagangai South &mdash; Grievance Dashboard</p>
+    <form id="loginForm">
+      <input type="password" id="pwInput" placeholder="Enter admin password" required autofocus>
+      <button type="submit" id="loginBtn"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+    </form>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
+
+<!-- ============ DASHBOARD ============ -->
+<div id="dash">
+  <div class="dash-header">
+    <div class="brand"><i class="fa-solid fa-ticket"></i> <div>Grievance Dashboard<div style="font-size:.68rem;color:#ffe5b3;font-weight:600;letter-spacing:.4px;">TVK Sivagangai South &middot; Public Grievance Cell</div></div></div>
+    <div class="actions">
+      <button onclick="loadTickets()"><i class="fa-solid fa-rotate"></i> Refresh</button>
+      <button onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="stats" id="statsRow"></div>
+
+    <div class="category-stats-wrap">
+      <h3 class="category-stats-title"><i class="fa-solid fa-layer-group"></i> Category of Grievance &mdash; Ticket Count</h3>
+      <div class="category-stats" id="categoryStatsRow"></div>
+    </div>
+
+    <div class="filter-bar">
+      <input type="text" id="searchInput" placeholder="Search by name, phone, ticket ID, or subject..." oninput="renderList()">
+      <select id="statusFilter" onchange="renderList()">
+        <option value="">All Statuses</option>
+        <option value="Acknowledge">Acknowledge</option>
+        <option value="Work in Progress">Work in Progress</option>
+        <option value="Pending">Pending</option>
+        <option value="Resolved">Resolved</option>
+      </select>
+      <select id="constituencyFilter" onchange="renderList()">
+        <option value="">All Constituencies</option>
+        <option value="Sivagangai">Sivagangai</option>
+        <option value="Manamadurai">Manamadurai</option>
+      </select>
+      <button class="refresh-btn" onclick="loadTickets()"><i class="fa-solid fa-rotate"></i> Refresh</button>
+      <button class="refresh-btn" style="background:#15803d;" onclick="exportCSV()"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+    </div>
+
+    <div id="listWrap">
+      <div class="loading-state"><i class="fa-solid fa-spinner spin"></i></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TICKET DETAIL MODAL ============ -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="tid mono" id="mTicketId"></div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="close-btn" style="width:auto;border-radius:7px;padding:0 14px;font-size:.8rem;font-weight:700;gap:6px;display:flex;align-items:center;" onclick="printTicket()"><i class="fa-solid fa-print"></i> Print</button>
+        <button class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="detail-row"><span class="k">Status</span><span class="v" id="mStatus"></span></div>
+      <div class="detail-row"><span class="k">Name</span><span class="v" id="mName"></span></div>
+      <div class="detail-row"><span class="k">Phone</span><span class="v" id="mPhone"></span></div>
+      <div class="detail-row"><span class="k">Constituency</span><span class="v" id="mConstituency"></span></div>
+      <div class="detail-row"><span class="k">Category</span><span class="v" id="mCategory"></span></div>
+      <div class="detail-row"><span class="k">Assigned To</span><span class="v" id="mAssignee">&mdash;</span></div>
+      <div class="detail-row"><span class="k">Contact OK?</span><span class="v" id="mConsent"></span></div>
+      <div class="detail-row"><span class="k">Filed on</span><span class="v" id="mCreated"></span></div>
+
+      <div class="detail-block">
+        <h4>Address</h4>
+        <p id="mAddress"></p>
+      </div>
+      <div class="detail-block">
+        <h4>Subject</h4>
+        <p id="mSubject"></p>
+      </div>
+      <div class="detail-block">
+        <h4>Description</h4>
+        <p id="mDescription"></p>
+      </div>
+      <div class="detail-block" id="mAttachWrap" style="display:none;">
+        <h4>Attachment</h4>
+        <div class="attach-preview" id="mAttachPreview"></div>
+      </div>
+      <div class="detail-block" id="mNotesWrap" style="display:none;">
+        <h4>Update History</h4>
+        <div class="notes-list" id="mNotesList"></div>
+      </div>
+
+      <div class="update-form">
+        <label>Assign To</label>
+        <input type="text" id="mNewAssignee" placeholder="e.g. Ravi Kumar (Municipal Engineer)" maxlength="120">
+        <label>Update Status</label>
+        <select id="mNewStatus">
+          <option value="Acknowledge">Acknowledge</option>
+          <option value="Work in Progress">Work in Progress</option>
+          <option value="Pending">Pending</option>
+          <option value="Resolved">Resolved</option>
+        </select>
+        <label>Add a Note (visible to citizen when they track this ticket)</label>
+        <textarea id="mNewNote" placeholder="e.g. Forwarded to municipal engineer, site visit scheduled..."></textarea>
+        <button id="mUpdateBtn" onclick="submitUpdate()"><i class="fa-solid fa-floppy-disk"></i> Save Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let authToken = null;
+let allTickets = [];
+let currentTicketId = null;
+
+/* ============ LOGIN ============ */
+document.getElementById('loginForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const btn = document.getElementById('loginBtn');
+  const err = document.getElementById('loginErr');
+  err.style.display = 'none';
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner spin"></i> Logging in...';
+
+  try {
+    const res = await fetch('/.netlify/functions/admin-login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: document.getElementById('pwInput').value })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) throw new Error(data.error || 'login_failed');
+
+    authToken = data.token;
+    sessionStorage.setItem('tvk_admin_token', data.token);
+    showDashboard();
+  } catch (e) {
+    err.textContent = 'Incorrect password, or admin access is not yet configured on the server.';
+    err.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Login';
+  }
+});
+
+function logout(){
+  sessionStorage.removeItem('tvk_admin_token');
+  authToken = null;
+  document.getElementById('dash').style.display = 'none';
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('pwInput').value = '';
+}
+
+function showDashboard(){
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('dash').style.display = 'block';
+  loadTickets();
+}
+
+/* auto-login if a session token is still valid */
+(function(){
+  const saved = sessionStorage.getItem('tvk_admin_token');
+  if (saved) {
+    authToken = saved;
+    showDashboard();
+  }
+})();
+
+/* ============ LOAD TICKETS ============ */
+async function loadTickets(){
+  const listWrap = document.getElementById('listWrap');
+  listWrap.innerHTML = '<div class="loading-state"><i class="fa-solid fa-spinner spin"></i></div>';
+  try {
+    const res = await fetch('/.netlify/functions/admin-tickets', {
+      headers: { 'Authorization': 'Bearer ' + authToken }
+    });
+    if (res.status === 401) { logout(); return; }
+    const data = await res.json();
+    if (!res.ok || !data.success) throw new Error('load_failed');
+    allTickets = data.tickets || [];
+    renderStats();
+    renderCategoryStats();
+    renderList();
+  } catch (e) {
+    listWrap.innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i>Could not load tickets. <button class="refresh-btn" style="margin-top:12px" onclick="loadTickets()">Retry</button></div>';
+  }
+}
+
+function renderStats(){
+  const counts = { 'Acknowledge': 0, 'Work in Progress': 0, 'Pending': 0, 'Resolved': 0 };
+  allTickets.forEach(t => { if (counts[t.status] !== undefined) counts[t.status]++; });
+  const cards = [
+    { lbl: 'Overall Complaints', num: allTickets.length, cls: 'st-overall', icon: 'fa-inbox' },
+    { lbl: 'Acknowledge', num: counts['Acknowledge'], cls: 'st-acknowledge', icon: 'fa-circle-check' },
+    { lbl: 'Work in Progress', num: counts['Work in Progress'], cls: 'st-progress', icon: 'fa-gears' },
+    { lbl: 'Pending', num: counts['Pending'], cls: 'st-pending', icon: 'fa-hourglass-half' },
+    { lbl: 'Resolved', num: counts['Resolved'], cls: 'st-resolved', icon: 'fa-flag-checkered' }
+  ];
+  document.getElementById('statsRow').innerHTML = cards.map(c =>
+    `<div class="stat-card ${c.cls}"><div class="icon"><i class="fa-solid ${c.icon}"></i></div><div><div class="num">${c.num}</div><div class="lbl">${c.lbl}</div></div></div>`
+  ).join('');
+}
+
+function renderCategoryStats(){
+  const counts = {};
+  allTickets.forEach(t => {
+    const cat = t.category || 'Uncategorized';
+    counts[cat] = (counts[cat] || 0) + 1;
+  });
+  const wrap = document.getElementById('categoryStatsRow');
+  const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  if (!entries.length) {
+    wrap.innerHTML = '<div style="color:var(--muted);font-size:.85rem;">No tickets yet.</div>';
+    return;
+  }
+  wrap.innerHTML = entries.map(([cat, count]) =>
+    `<div class="cat-stat-card" onclick="filterByCategory('${escAttr(cat)}')" title="Click to filter the list by this category">
+       <div class="cname">${escHtml(cat.split('|')[0].trim())}</div>
+       <div class="ccount">${count}</div>
+     </div>`
+  ).join('');
+}
+
+function filterByCategory(cat){
+  document.getElementById('searchInput').value = cat;
+  document.getElementById('statusFilter').value = '';
+  document.getElementById('constituencyFilter').value = '';
+  renderList();
+  document.getElementById('listWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function getFilteredTickets(){
+  const search = document.getElementById('searchInput').value.trim().toLowerCase();
+  const statusF = document.getElementById('statusFilter').value;
+  const constF = document.getElementById('constituencyFilter').value;
+
+  return allTickets.filter(t => {
+    if (statusF && t.status !== statusF) return false;
+    if (constF && t.constituency !== constF) return false;
+    if (search) {
+      const hay = [t.id, t.name, t.phone, t.subject, t.category, t.assignee].join(' ').toLowerCase();
+      if (!hay.includes(search)) return false;
+    }
+    return true;
+  });
+}
+
+function renderList(){
+  const filtered = getFilteredTickets();
+
+  const listWrap = document.getElementById('listWrap');
+  if (!filtered.length) {
+    listWrap.innerHTML = '<div class="empty-state"><i class="fa-solid fa-inbox"></i>No tickets match your filters.</div>';
+    return;
+  }
+
+  listWrap.innerHTML = '<div class="ticket-list">' + filtered.map(t => {
+    const statusClass = 'status-' + t.status.replace(/\s+/g, '');
+    return `<div class="ticket-row" onclick="openModal('${t.id}')">
+      <div class="id-col">
+        <div class="tid mono">${t.id}</div>
+        <div class="tdate">${formatDate(t.createdAt)}</div>
+      </div>
+      <div class="mid-col">
+        <div class="tsubject">${escHtml(t.subject)}</div>
+        <div class="tmeta">${escHtml(t.name)} &middot; ${escHtml(t.constituency)} &middot; ${escHtml(t.category)}${t.assignee ? ' &middot; <i class="fa-solid fa-user-tag"></i> ' + escHtml(t.assignee) : ''}</div>
+      </div>
+      <span class="status-pill ${statusClass}">${t.status}</span>
+    </div>`;
+  }).join('') + '</div>';
+}
+
+/* ============ MODAL ============ */
+function printTicket(){
+  window.print();
+}
+
+function exportCSV(){
+  const tickets = getFilteredTickets();
+  if (!tickets.length) { alert('No tickets to export.'); return; }
+
+  const headers = ['Ticket ID','Status','Assigned To','Name','Phone','Constituency','Category','Subject','Description','Address','Contact OK','Filed On','Last Updated'];
+  const csvEscape = (v) => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+
+  const rows = tickets.map(t => [
+    t.id, t.status, t.assignee || '', t.name, t.phone, t.constituency, t.category, t.subject,
+    t.description, t.address, t.consent === 'yes' ? 'Yes' : 'No',
+    formatDate(t.createdAt), formatDate(t.updatedAt)
+  ].map(csvEscape).join(','));
+
+  const csv = [headers.map(csvEscape).join(','), ...rows].join('\r\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `tvk-svg-south-tickets-${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function openModal(ticketId){
+  const t = allTickets.find(x => x.id === ticketId);
+  if (!t) return;
+  currentTicketId = ticketId;
+
+  document.getElementById('mTicketId').textContent = t.id;
+  const statusClass = 'status-' + t.status.replace(/\s+/g, '');
+  document.getElementById('mStatus').innerHTML = `<span class="status-pill ${statusClass}">${t.status}</span>`;
+  document.getElementById('mName').textContent = t.name;
+  document.getElementById('mPhone').textContent = t.phone;
+  document.getElementById('mConstituency').textContent = t.constituency;
+  document.getElementById('mCategory').textContent = t.category;
+  document.getElementById('mAssignee').textContent = t.assignee ? t.assignee : '—';
+  document.getElementById('mConsent').textContent = t.consent === 'yes' ? 'Yes' : 'No';
+  document.getElementById('mCreated').textContent = formatDate(t.createdAt);
+  document.getElementById('mAddress').textContent = t.address;
+  document.getElementById('mSubject').textContent = t.subject;
+  document.getElementById('mDescription').textContent = t.description;
+  document.getElementById('mNewStatus').value = t.status;
+  document.getElementById('mNewAssignee').value = t.assignee || '';
+  document.getElementById('mNewNote').value = '';
+
+  const attachWrap = document.getElementById('mAttachWrap');
+  if (t.attachmentUrl) {
+    attachWrap.style.display = 'block';
+    if ((t.attachmentType || '').startsWith('image') || /\.(jpg|jpeg|png|gif|webp)$/i.test(t.attachmentUrl)) {
+      document.getElementById('mAttachPreview').innerHTML = `<img src="${escAttr(t.attachmentUrl)}" alt="attachment"><br><a href="${escAttr(t.attachmentUrl)}" target="_blank"><i class="fa-solid fa-up-right-from-square"></i> Open full size</a>`;
+    } else {
+      document.getElementById('mAttachPreview').innerHTML = `<a href="${escAttr(t.attachmentUrl)}" target="_blank"><i class="fa-solid fa-paperclip"></i> View attachment</a>`;
+    }
+  } else {
+    attachWrap.style.display = 'none';
+  }
+
+  const notesWrap = document.getElementById('mNotesWrap');
+  const notes = t.notes || [];
+  if (notes.length) {
+    notesWrap.style.display = 'block';
+    document.getElementById('mNotesList').innerHTML = notes.slice().reverse().map(n =>
+      `<div class="note-item">${escHtml(n.text)}<div class="ndate">${formatDate(n.at)}</div></div>`
+    ).join('');
+  } else {
+    notesWrap.style.display = 'none';
+  }
+
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('show');
+  currentTicketId = null;
+}
+
+async function submitUpdate(){
+  if (!currentTicketId) return;
+  const btn = document.getElementById('mUpdateBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner spin"></i> Saving...';
+
+  try {
+    const res = await fetch('/.netlify/functions/admin-tickets', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
+      body: JSON.stringify({
+        ticketId: currentTicketId,
+        status: document.getElementById('mNewStatus').value,
+        assignee: document.getElementById('mNewAssignee').value.trim(),
+        note: document.getElementById('mNewNote').value.trim()
+      })
+    });
+    if (res.status === 401) { logout(); return; }
+    const data = await res.json();
+    if (!res.ok || !data.success) throw new Error('update_failed');
+
+    const idx = allTickets.findIndex(x => x.id === currentTicketId);
+    if (idx !== -1) allTickets[idx] = data.ticket;
+    renderStats();
+    renderCategoryStats();
+    renderList();
+    closeModal();
+  } catch (e) {
+    alert('Could not save the update. Please try again.');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save Update';
+  }
+}
+
+/* ============ HELPERS ============ */
+function formatDate(iso){
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) + ', ' +
+         d.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+}
+function escHtml(str){
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function escAttr(str){ return escHtml(str).replace(/"/g,'&quot;'); }
+</script>
+
+</body>
+</html>
