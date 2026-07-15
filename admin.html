@@ -323,8 +323,9 @@ async function loadTickets(){
   const listWrap = document.getElementById('listWrap');
   listWrap.innerHTML = '<div class="loading-state"><i class="fa-solid fa-spinner spin"></i></div>';
   try {
-    const res = await fetch('/.netlify/functions/admin-tickets', {
-      headers: { 'Authorization': 'Bearer ' + authToken }
+    const res = await fetch('/.netlify/functions/admin-tickets?t=' + Date.now(), {
+     cache: 'no-store',
+     headers: { 'Authorization': 'Bearer ' + authToken }
     });
     if (res.status === 401) { logout(); return; }
     const data = await res.json();
