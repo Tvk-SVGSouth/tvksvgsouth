@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staff Portal | TVK Sivagangai South</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/jpeg" href="./Images/Tvk-banner.jpg.jpeg">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg-1:#050a18; --bg-2:#0a1128;
+  --glass:rgba(19,29,64,.58);
+  --border:rgba(96,165,250,.16); --border-hi:rgba(96,165,250,.32);
+  --blue-1:#0b1740; --blue-2:#1e3a8a; --blue-3:#2563eb; --blue-4:#38bdf8;
+  --gold:#ffcc00;
+  --amber-1:#b45309; --amber-2:#f59e0b; --amber-3:#fbbf24;
+  --ink:#e9edf7; --muted:#8b9bc4; --muted-2:#5f6f9c;
+  --acknowledge:#3b82f6; --progress:#f59e0b; --resolved:#22c55e; --pending:#a855f7;
+  --shadow:0 10px 34px rgba(2,6,20,.55); --shadow-lg:0 22px 60px rgba(2,6,20,.6);
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter','Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
+.mono{font-family:'JetBrains Mono',monospace;}
+body{
+  color:var(--ink);
+  background:
+    radial-gradient(1100px 620px at 88% -8%, rgba(245,158,11,.18), transparent 60%),
+    radial-gradient(900px 560px at -8% 12%, rgba(56,189,248,.16), transparent 55%),
+    radial-gradient(1200px 800px at 50% 120%, rgba(30,58,138,.35), transparent 60%),
+    linear-gradient(160deg,var(--bg-1),var(--bg-2) 55%,#070d20);
+  min-height:100vh;
+  background-attachment:fixed;
+}
+
+/* ============ LOGIN ============ */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden;}
+.login-wrap::before{content:'';position:absolute;inset:0;background:url('./Images/Tvk-banner.jpg.jpeg') center 20%/cover no-repeat;opacity:.16;}
+.login-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(5,10,24,.85),rgba(10,17,40,.94));}
+.login-card{position:relative;z-index:2;background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--border-hi);border-radius:22px;box-shadow:var(--shadow-lg);padding:44px 38px;max-width:400px;width:100%;text-align:center;}
+.login-card .badge-wrap{width:64px;height:64px;margin:0 auto 16px;border-radius:18px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--amber-2),var(--amber-3));box-shadow:0 10px 30px rgba(245,158,11,.4);}
+.login-card i.badge{font-size:1.7rem;color:#3a2500;}
+.login-card h1{font-size:1.35rem;font-weight:800;background:linear-gradient(135deg,#fff,#ffe4b0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;}
+.login-card p{color:var(--muted);font-size:.85rem;margin-bottom:26px;}
+.login-card input{width:100%;padding:13px 15px;border:1.5px solid var(--border);background:rgba(255,255,255,.04);color:var(--ink);border-radius:10px;font-size:.95rem;margin-bottom:14px;transition:.2s;}
+.login-card input::placeholder{color:var(--muted-2);}
+.login-card input:focus{outline:none;border-color:var(--amber-3);box-shadow:0 0 0 3px rgba(251,191,36,.15);}
+.login-card button{width:100%;background:linear-gradient(135deg,var(--amber-2),var(--amber-3));color:#3a2500;border:none;padding:14px;border-radius:10px;font-weight:800;font-size:.95rem;cursor:pointer;box-shadow:0 10px 26px rgba(245,158,11,.35);transition:.2s;}
+.login-card button:hover{transform:translateY(-1px);box-shadow:0 14px 32px rgba(245,158,11,.5);}
+.login-card button:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+.login-err{color:#fca5a5;font-size:.82rem;margin-top:14px;display:none;}
+.login-footlink{margin-top:20px;font-size:.78rem;color:var(--muted-2);}
+.login-footlink a{color:var(--blue-4);text-decoration:none;font-weight:700;}
+.login-footlink a:hover{text-decoration:underline;}
+
+/* ============ DASHBOARD SHELL ============ */
+#dash{display:none;}
+.dash-header{
+  background:linear-gradient(120deg,#5a3a06,var(--amber-1) 45%,#a55d05 75%,var(--amber-2));
+  position:relative;overflow:hidden;color:#fff;padding:20px 26px;display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 4px 26px rgba(2,6,20,.5);position:sticky;top:0;z-index:40;flex-wrap:wrap;gap:14px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.dash-header::before{content:'';position:absolute;inset:0;background:radial-gradient(600px 200px at 15% 0%, rgba(255,255,255,.12), transparent 60%);pointer-events:none;}
+.dash-header .brand{position:relative;font-weight:800;font-size:1.08rem;display:flex;align-items:center;gap:12px;}
+.dash-header .brand i{font-size:1.3rem;color:#3a2500;background:rgba(255,255,255,.55);width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;}
+.dash-header .brand small{display:block;font-size:.7rem;color:#ffe9c2;font-weight:600;letter-spacing:.3px;margin-top:2px;}
+.dash-header .actions{position:relative;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.dash-header button{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.2);color:#fff;padding:10px 16px;border-radius:9px;font-weight:700;font-size:.82rem;cursor:pointer;display:flex;align-items:center;gap:7px;transition:.2s;backdrop-filter:blur(6px);}
+.dash-header button:hover{background:rgba(255,255,255,.28);transform:translateY(-1px);}
+
+.container{max-width:1360px;margin:0 auto;padding:28px 22px 70px;}
+
+/* STAT CARDS */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:18px;margin-bottom:28px;}
+.stat-card{
+  position:relative;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--border);border-radius:16px;padding:20px 22px;box-shadow:var(--shadow);
+  display:flex;align-items:center;gap:16px;overflow:hidden;transition:.25s;
+}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent,linear-gradient(90deg,var(--amber-2),var(--amber-3)));}
+.stat-card:hover{transform:translateY(-3px);border-color:var(--border-hi);box-shadow:0 16px 40px rgba(2,6,20,.5);}
+.stat-card .icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#fff;flex-shrink:0;background:var(--accent-solid,var(--amber-2));box-shadow:0 8px 18px rgba(245,158,11,.35);}
+.stat-card .num{font-size:1.9rem;font-weight:800;color:#fff;letter-spacing:.3px;}
+.stat-card .lbl{font-size:.74rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-top:2px;}
+.stat-card.st-overall{--accent:linear-gradient(90deg,var(--gold),#ffe27a);--accent-solid:linear-gradient(135deg,var(--gold),#ffb703);}
+.stat-card.st-overall .icon{color:#3a2500;}
+.stat-card.st-acknowledge{--accent:linear-gradient(90deg,var(--acknowledge),#60a5fa);--accent-solid:var(--acknowledge);}
+.stat-card.st-progress{--accent:linear-gradient(90deg,var(--progress),#fbbf24);--accent-solid:var(--progress);}
+.stat-card.st-pending{--accent:linear-gradient(90deg,var(--pending),#c084fc);--accent-solid:var(--pending);}
+.stat-card.st-resolved{--accent:linear-gradient(90deg,var(--resolved),#4ade80);--accent-solid:var(--resolved);}
+
+.panel-glass{background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:18px;padding:20px 22px;box-shadow:var(--shadow);margin-bottom:24px;}
+.panel-title{font-size:.86rem;text-transform:uppercase;letter-spacing:.5px;color:var(--amber-3);margin-bottom:16px;display:flex;align-items:center;gap:9px;font-weight:700;}
+.panel-title i{background:rgba(251,191,36,.15);width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;}
+
+.mine-toggle{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.mine-toggle input{width:36px;height:20px;-webkit-appearance:none;appearance:none;background:rgba(255,255,255,.12);border-radius:20px;position:relative;cursor:pointer;border:1px solid var(--border);outline:none;transition:.2s;}
+.mine-toggle input:checked{background:var(--amber-2);}
+.mine-toggle input::before{content:'';position:absolute;top:1px;left:1px;width:16px;height:16px;background:#fff;border-radius:50%;transition:.2s;}
+.mine-toggle input:checked::before{transform:translateX(16px);}
+.mine-toggle label{font-size:.85rem;color:var(--muted);cursor:pointer;}
+.mine-toggle input[type=text]{width:auto;min-width:200px;margin-left:4px;padding:8px 12px;border-radius:8px;border:1.5px solid var(--border);background:rgba(255,255,255,.04);color:var(--ink);font-size:.83rem;}
+
+/* FILTER BAR */
+.filter-bar{background:var(--glass);backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:16px;padding:16px 18px;margin-bottom:22px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+.filter-bar input, .filter-bar select{padding:10px 13px;border:1.5px solid var(--border);border-radius:9px;font-size:.85rem;background:rgba(255,255,255,.04);color:var(--ink);}
+.filter-bar input::placeholder{color:var(--muted-2);}
+.filter-bar select option{background:#111f4a;color:#fff;}
+.filter-bar input[type=text]{flex:1;min-width:220px;}
+.filter-bar .refresh-btn{background:linear-gradient(135deg,var(--amber-2),var(--amber-3));color:#3a2500;border:none;padding:10px 18px;border-radius:9px;font-weight:700;font-size:.82rem;cursor:pointer;display:flex;align-items:center;gap:7px;transition:.2s;}
+.filter-bar .refresh-btn:hover{transform:translateY(-1px);filter:brightness(1.08);}
+
+/* TICKET LIST */
+.ticket-list{display:flex;flex-direction:column;gap:12px;}
+.ticket-row{
+  background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:14px;
+  padding:17px 19px;display:flex;align-items:center;gap:16px;cursor:pointer;transition:.18s;flex-wrap:wrap;
+}
+.ticket-row:hover{border-color:var(--border-hi);box-shadow:0 10px 30px rgba(2,6,20,.45);transform:translateY(-2px);}
+.ticket-row .id-col{min-width:170px;}
+.ticket-row .tid{font-weight:800;font-size:.85rem;color:var(--amber-3);}
+.ticket-row .tdate{font-size:.72rem;color:var(--muted-2);margin-top:2px;}
+.ticket-row .mid-col{flex:1;min-width:200px;}
+.ticket-row .tsubject{font-weight:700;font-size:.9rem;color:var(--ink);}
+.ticket-row .tmeta{font-size:.76rem;color:var(--muted);margin-top:3px;}
+.status-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-weight:800;font-size:.72rem;color:#fff;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.25);}
+.status-Acknowledge{background:linear-gradient(135deg,var(--acknowledge),#60a5fa);}
+.status-WorkinProgress{background:linear-gradient(135deg,var(--progress),#fbbf24);}
+.status-Resolved{background:linear-gradient(135deg,var(--resolved),#4ade80);}
+.status-Pending{background:linear-gradient(135deg,var(--pending),#c084fc);}
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted);}
+.empty-state i{font-size:2.4rem;color:var(--muted-2);margin-bottom:12px;display:block;}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(3,6,16,.72);backdrop-filter:blur(4px);z-index:100;align-items:flex-start;justify-content:center;padding:30px 16px;overflow-y:auto;}
+.modal-overlay.show{display:flex;}
+.modal{background:linear-gradient(180deg,#101c40,#0c1630);border:1px solid var(--border-hi);border-radius:18px;max-width:640px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.6);overflow:hidden;}
+.modal-head{background:linear-gradient(120deg,#5a3a06,var(--amber-1) 60%,var(--amber-2));color:#fff;padding:22px 24px;display:flex;justify-content:space-between;align-items:flex-start;}
+.modal-head .tid{font-size:1.1rem;font-weight:800;}
+.modal-head .close-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.15);color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem;flex-shrink:0;}
+.modal-head .close-btn:hover{background:rgba(255,255,255,.28);}
+.modal-body{padding:24px 26px;}
+.detail-row{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.86rem;}
+.detail-row .k{color:var(--muted);font-weight:600;flex-shrink:0;}
+.detail-row .v{font-weight:600;text-align:right;color:var(--ink);}
+.detail-block{margin-top:18px;}
+.detail-block h4{font-size:.76rem;text-transform:uppercase;letter-spacing:.5px;color:var(--amber-3);margin-bottom:7px;font-weight:700;}
+.detail-block p{font-size:.88rem;line-height:1.7;background:rgba(255,255,255,.03);border:1px solid var(--border);padding:13px 15px;border-radius:10px;color:var(--ink);}
+.attach-preview{margin-top:10px;}
+.attach-preview img{max-width:100%;border-radius:10px;border:1px solid var(--border);}
+.attach-preview a{color:var(--amber-3);font-weight:700;font-size:.85rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;}
+.notes-list{margin-top:10px;}
+.note-item{background:rgba(255,255,255,.03);border-left:3px solid var(--amber-3);padding:9px 13px;border-radius:8px;margin-bottom:8px;font-size:.83rem;color:var(--ink);}
+.note-item .ndate{font-size:.7rem;color:var(--muted-2);margin-top:3px;}
+.update-form{margin-top:22px;border-top:1px solid rgba(255,255,255,.08);padding-top:20px;}
+.update-form label{font-size:.8rem;font-weight:700;color:var(--amber-3);display:block;margin-bottom:7px;}
+.update-form select, .update-form textarea, .update-form input[type=text]{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:9px;font-size:.88rem;margin-bottom:14px;background:rgba(255,255,255,.04);color:var(--ink);}
+.update-form select option{background:#111f4a;}
+.update-form textarea{min-height:70px;resize:vertical;}
+.update-form button{background:linear-gradient(135deg,var(--amber-2),var(--amber-3));color:#3a2500;border:none;padding:12px 22px;border-radius:9px;font-weight:800;font-size:.86rem;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.2s;}
+.update-form button:hover{transform:translateY(-1px);filter:brightness(1.08);}
+.update-form button:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+
+.spin{animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-state{text-align:center;padding:60px 20px;color:var(--muted);}
+.loading-state i{font-size:2rem;color:var(--amber-3);}
+
+@media print{
+  body *{visibility:hidden;}
+  .modal-overlay.show, .modal-overlay.show *{visibility:visible;}
+  .modal-overlay.show{position:absolute;top:0;left:0;background:#fff;padding:0;display:block;}
+  .modal-overlay.show .modal{box-shadow:none;max-width:100%;background:#fff;color:#000;}
+  .modal-overlay.show .close-btn, .modal-overlay.show .update-form{display:none !important;}
+}
+
+@media(max-width:700px){
+  .ticket-row{flex-direction:column;align-items:flex-start;}
+  .detail-row{flex-direction:column;}
+  .detail-row .v{text-align:left;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN SCREEN ============ -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-card">
+    <div class="badge-wrap"><i class="fa-solid fa-people-carry-box badge"></i></div>
+    <h1>Staff Portal</h1>
+    <p>TVK Sivagangai South &mdash; Assignee Ticket Portal</p>
+    <form id="loginForm">
+      <input type="password" id="pwInput" placeholder="Enter staff access code" required autofocus>
+      <button type="submit" id="loginBtn"><i class="fa-solid fa-right-to-bracket"></i> Enter Portal</button>
+    </form>
+    <div class="login-err" id="loginErr"></div>
+    <div class="login-footlink">Party office admin? <a href="admin.html">Go to Admin Dashboard &rarr;</a></div>
+  </div>
+</div>
+
+<!-- ============ DASHBOARD ============ -->
+<div id="dash">
+  <div class="dash-header">
+    <div class="brand"><i class="fa-solid fa-people-carry-box"></i> <div>Staff Ticket Portal<small>TVK Sivagangai South &middot; Update tickets assigned to you</small></div></div>
+    <div class="actions">
+      <button onclick="loadTickets()"><i class="fa-solid fa-rotate"></i> Refresh</button>
+      <button onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="stats" id="statsRow"></div>
+
+    <div class="panel-glass">
+      <h3 class="panel-title"><i class="fa-solid fa-filter"></i> My View</h3>
+      <div class="mine-toggle">
+        <input type="checkbox" id="mineOnly" onchange="renderList()">
+        <label for="mineOnly">Show only tickets assigned to me</label>
+        <input type="text" id="myName" placeholder="Type your name as used in Assign To" oninput="renderList()">
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <input type="text" id="searchInput" placeholder="Search by name, phone, ticket ID, subject, or assignee..." oninput="renderList()">
+      <select id="statusFilter" onchange="renderList()">
+        <option value="">All Statuses</option>
+        <option value="Acknowledge">Acknowledge</option>
+        <option value="Work in Progress">Work in Progress</option>
+        <option value="Pending">Pending</option>
+        <option value="Resolved">Resolved</option>
+      </select>
+      <select id="constituencyFilter" onchange="renderList()">
+        <option value="">All Constituencies</option>
+        <option value="Sivagangai">Sivagangai</option>
+        <option value="Manamadurai">Manamadurai</option>
+      </select>
+      <button class="refresh-btn" onclick="loadTickets()"><i class="fa-solid fa-rotate"></i> Refresh</button>
+    </div>
+
+    <div id="listWrap">
+      <div class="loading-state"><i class="fa-solid fa-spinner spin"></i></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TICKET DETAIL MODAL ============ -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="tid mono" id="mTicketId"></div>
+      </div>
+      <button class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-row"><span class="k">Status</span><span class="v" id="mStatus"></span></div>
+      <div class="detail-row"><span class="k">Name</span><span class="v" id="mName"></span></div>
+      <div class="detail-row"><span class="k">Phone</span><span class="v" id="mPhone"></span></div>
+      <div class="detail-row"><span class="k">Constituency</span><span class="v" id="mConstituency"></span></div>
+      <div class="detail-row"><span class="k">Category</span><span class="v" id="mCategory"></span></div>
+      <div class="detail-row"><span class="k">Assigned To</span><span class="v" id="mAssignee">&mdash;</span></div>
+      <div class="detail-row"><span class="k">Filed on</span><span class="v" id="mCreated"></span></div>
+
+      <div class="detail-block">
+        <h4>Address</h4>
+        <p id="mAddress"></p>
+      </div>
+      <div class="detail-block">
+        <h4>Subject</h4>
+        <p id="mSubject"></p>
+      </div>
+      <div class="detail-block">
+        <h4>Description</h4>
+        <p id="mDescription"></p>
+      </div>
+      <div class="detail-block" id="mAttachWrap" style="display:none;">
+        <h4>Attachment</h4>
+        <div class="attach-preview" id="mAttachPreview"></div>
+      </div>
+      <div class="detail-block" id="mNotesWrap" style="display:none;">
+        <h4>Update History</h4>
+        <div class="notes-list" id="mNotesList"></div>
+      </div>
+
+      <div class="update-form">
+        <label>Assign To (you can claim it, or hand it off to someone else)</label>
+        <input type="text" id="mNewAssignee" placeholder="e.g. Ravi Kumar (Municipal Engineer)" maxlength="120">
+        <label>Update Status</label>
+        <select id="mNewStatus">
+          <option value="Acknowledge">Acknowledge</option>
+          <option value="Work in Progress">Work in Progress</option>
+          <option value="Pending">Pending</option>
+          <option value="Resolved">Resolved</option>
+        </select>
+        <label>Add a Note (visible to citizen when they track this ticket)</label>
+        <textarea id="mNewNote" placeholder="e.g. Site visited, work scheduled for tomorrow..."></textarea>
+        <button id="mUpdateBtn" onclick="submitUpdate()"><i class="fa-solid fa-floppy-disk"></i> Save Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let authToken = null;
+let allTickets = [];
+let currentTicketId = null;
+let prevStatCounts = {};
+
+/* ============ LOGIN ============ */
+document.getElementById('loginForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const btn = document.getElementById('loginBtn');
+  const err = document.getElementById('loginErr');
+  err.style.display = 'none';
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner spin"></i> Entering...';
+
+  try {
+    const res = await fetch('/.netlify/functions/admin-login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: document.getElementById('pwInput').value, username: 'staff' })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) throw new Error(data.error || 'login_failed');
+
+    authToken = data.token;
+    sessionStorage.setItem('tvk_staff_token', data.token);
+    const savedName = localStorage.getItem('tvk_staff_name');
+    if (savedName) document.getElementById('myName').value = savedName;
+    showDashboard();
+  } catch (e) {
+    err.textContent = 'Incorrect access code, or the staff portal is not yet configured on the server.';
+    err.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Enter Portal';
+  }
+});
+
+function logout(){
+  sessionStorage.removeItem('tvk_staff_token');
+  authToken = null;
+  prevStatCounts = {};
+  document.getElementById('dash').style.display = 'none';
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('pwInput').value = '';
+}
+
+function showDashboard(){
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('dash').style.display = 'block';
+  loadTickets();
+}
+
+/* auto-login if a session token is still valid */
+(function(){
+  const saved = sessionStorage.getItem('tvk_staff_token');
+  if (saved) {
+    authToken = saved;
+    showDashboard();
+  }
+})();
+
+document.getElementById('myName').addEventListener('change', function(){
+  localStorage.setItem('tvk_staff_name', this.value.trim());
+});
+
+/* ============ LOAD TICKETS ============ */
+async function loadTickets(){
+  const listWrap = document.getElementById('listWrap');
+  listWrap.innerHTML = '<div class="loading-state"><i class="fa-solid fa-spinner spin"></i></div>';
+  try {
+    const res = await fetch('/.netlify/functions/admin-tickets?t=' + Date.now(), {
+     cache: 'no-store',
+     headers: { 'Authorization': 'Bearer ' + authToken }
+    });
+    if (res.status === 401) { logout(); return; }
+    const data = await res.json();
+    if (!res.ok || !data.success) throw new Error('load_failed');
+    allTickets = data.tickets || [];
+    renderStats();
+    renderList();
+  } catch (e) {
+    listWrap.innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i>Could not load tickets. <button class="refresh-btn" style="margin-top:12px" onclick="loadTickets()">Retry</button></div>';
+  }
+}
+
+/* ============ ANIMATED NUMBERS ============ */
+function animateNumber(el, from, to, duration){
+  if (from === to) { el.textContent = to; return; }
+  const start = performance.now();
+  const diff = to - from;
+  function tick(now){
+    const p = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(from + diff * eased);
+    if (p < 1) requestAnimationFrame(tick);
+    else el.textContent = to;
+  }
+  requestAnimationFrame(tick);
+}
+
+function renderStats(){
+  const source = getFilteredTickets();
+  const counts = { 'Acknowledge': 0, 'Work in Progress': 0, 'Pending': 0, 'Resolved': 0 };
+  source.forEach(t => { if (counts[t.status] !== undefined) counts[t.status]++; });
+  const cards = [
+    { key:'Overall', lbl: 'Total Tickets', num: source.length, cls: 'st-overall', icon: 'fa-inbox' },
+    { key:'Acknowledge', lbl: 'Acknowledge', num: counts['Acknowledge'], cls: 'st-acknowledge', icon: 'fa-circle-check' },
+    { key:'Work in Progress', lbl: 'Work in Progress', num: counts['Work in Progress'], cls: 'st-progress', icon: 'fa-gears' },
+    { key:'Pending', lbl: 'Pending', num: counts['Pending'], cls: 'st-pending', icon: 'fa-hourglass-half' },
+    { key:'Resolved', lbl: 'Resolved', num: counts['Resolved'], cls: 'st-resolved', icon: 'fa-flag-checkered' }
+  ];
+  document.getElementById('statsRow').innerHTML = cards.map(c =>
+    `<div class="stat-card ${c.cls}"><div class="icon"><i class="fa-solid ${c.icon}"></i></div><div><div class="num" id="stat-${c.key.replace(/\s+/g,'')}">0</div><div class="lbl">${c.lbl}</div></div></div>`
+  ).join('');
+
+  cards.forEach(c => {
+    const el = document.getElementById('stat-' + c.key.replace(/\s+/g,''));
+    const from = prevStatCounts[c.key] || 0;
+    animateNumber(el, from, c.num, 900);
+    prevStatCounts[c.key] = c.num;
+  });
+}
+
+function getFilteredTickets(){
+  const search = document.getElementById('searchInput').value.trim().toLowerCase();
+  const statusF = document.getElementById('statusFilter').value;
+  const constF = document.getElementById('constituencyFilter').value;
+  const mineOnly = document.getElementById('mineOnly').checked;
+  const myName = document.getElementById('myName').value.trim().toLowerCase();
+
+  return allTickets.filter(t => {
+    if (statusF && t.status !== statusF) return false;
+    if (constF && t.constituency !== constF) return false;
+    if (mineOnly && myName && !(t.assignee || '').toLowerCase().includes(myName)) return false;
+    if (search) {
+      const hay = [t.id, t.name, t.phone, t.subject, t.category, t.assignee].join(' ').toLowerCase();
+      if (!hay.includes(search)) return false;
+    }
+    return true;
+  });
+}
+
+function renderList(){
+  renderStats();
+  const filtered = getFilteredTickets();
+
+  const listWrap = document.getElementById('listWrap');
+  if (!filtered.length) {
+    listWrap.innerHTML = '<div class="empty-state"><i class="fa-solid fa-inbox"></i>No tickets match your filters.</div>';
+    return;
+  }
+
+  listWrap.innerHTML = '<div class="ticket-list">' + filtered.map(t => {
+    const statusClass = 'status-' + t.status.replace(/\s+/g, '');
+    return `<div class="ticket-row" onclick="openModal('${t.id}')">
+      <div class="id-col">
+        <div class="tid mono">${t.id}</div>
+        <div class="tdate">${formatDate(t.createdAt)}</div>
+      </div>
+      <div class="mid-col">
+        <div class="tsubject">${escHtml(t.subject)}</div>
+        <div class="tmeta">${escHtml(t.name)} &middot; ${escHtml(t.constituency)} &middot; ${escHtml(t.category)}${t.assignee ? ' &middot; <i class="fa-solid fa-user-tag"></i> ' + escHtml(t.assignee) : ' &middot; <i class="fa-solid fa-user-slash"></i> Unassigned'}</div>
+      </div>
+      <span class="status-pill ${statusClass}">${t.status}</span>
+    </div>`;
+  }).join('') + '</div>';
+}
+
+function openModal(ticketId){
+  const t = allTickets.find(x => x.id === ticketId);
+  if (!t) return;
+  currentTicketId = ticketId;
+
+  document.getElementById('mTicketId').textContent = t.id;
+  const statusClass = 'status-' + t.status.replace(/\s+/g, '');
+  document.getElementById('mStatus').innerHTML = `<span class="status-pill ${statusClass}">${t.status}</span>`;
+  document.getElementById('mName').textContent = t.name;
+  document.getElementById('mPhone').textContent = t.phone;
+  document.getElementById('mConstituency').textContent = t.constituency;
+  document.getElementById('mCategory').textContent = t.category;
+  document.getElementById('mAssignee').textContent = t.assignee ? t.assignee : '—';
+  document.getElementById('mCreated').textContent = formatDate(t.createdAt);
+  document.getElementById('mAddress').textContent = t.address;
+  document.getElementById('mSubject').textContent = t.subject;
+  document.getElementById('mDescription').textContent = t.description;
+  document.getElementById('mNewStatus').value = t.status;
+  document.getElementById('mNewAssignee').value = t.assignee || '';
+  document.getElementById('mNewNote').value = '';
+
+  const attachWrap = document.getElementById('mAttachWrap');
+  if (t.attachmentUrl) {
+    attachWrap.style.display = 'block';
+    if ((t.attachmentType || '').startsWith('image') || /\.(jpg|jpeg|png|gif|webp)$/i.test(t.attachmentUrl)) {
+      document.getElementById('mAttachPreview').innerHTML = `<img src="${escAttr(t.attachmentUrl)}" alt="attachment"><br><a href="${escAttr(t.attachmentUrl)}" target="_blank"><i class="fa-solid fa-up-right-from-square"></i> Open full size</a>`;
+    } else {
+      document.getElementById('mAttachPreview').innerHTML = `<a href="${escAttr(t.attachmentUrl)}" target="_blank"><i class="fa-solid fa-paperclip"></i> View attachment</a>`;
+    }
+  } else {
+    attachWrap.style.display = 'none';
+  }
+
+  const notesWrap = document.getElementById('mNotesWrap');
+  const notes = t.notes || [];
+  if (notes.length) {
+    notesWrap.style.display = 'block';
+    document.getElementById('mNotesList').innerHTML = notes.slice().reverse().map(n =>
+      `<div class="note-item">${escHtml(n.text)}<div class="ndate">${formatDate(n.at)}</div></div>`
+    ).join('');
+  } else {
+    notesWrap.style.display = 'none';
+  }
+
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('show');
+  currentTicketId = null;
+}
+
+async function submitUpdate(){
+  if (!currentTicketId) return;
+  const btn = document.getElementById('mUpdateBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner spin"></i> Saving...';
+
+  try {
+    const res = await fetch('/.netlify/functions/admin-tickets', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
+      body: JSON.stringify({
+        ticketId: currentTicketId,
+        status: document.getElementById('mNewStatus').value,
+        assignee: document.getElementById('mNewAssignee').value.trim(),
+        note: document.getElementById('mNewNote').value.trim()
+      })
+    });
+    if (res.status === 401) { logout(); return; }
+    const data = await res.json();
+    if (!res.ok || !data.success) throw new Error('update_failed');
+
+    const idx = allTickets.findIndex(x => x.id === currentTicketId);
+    if (idx !== -1) allTickets[idx] = data.ticket;
+    renderList();
+    closeModal();
+  } catch (e) {
+    alert('Could not save the update. Please try again.');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save Update';
+  }
+}
+
+/* ============ HELPERS ============ */
+function formatDate(iso){
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) + ', ' +
+         d.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+}
+function escHtml(str){
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function escAttr(str){ return escHtml(str).replace(/"/g,'&quot;'); }
+</script>
+
+</body>
+</html>
